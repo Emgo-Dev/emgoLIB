@@ -1,4 +1,11 @@
-var DOM = {
+////
+////////        Class
+////////////////////////////////////////////////
+//// DOM element targeting and manipulation
+/**
+ * Class that bundles some useful methods.
+*/
+let DOM = {
 	ele( selector ){
 		if (document.querySelectorAll(selector).length > 1) {
 			return document.querySelectorAll(selector);
@@ -70,6 +77,16 @@ var DOM = {
 	}
 }
 
+
+////
+////////        Functional Functions
+////////////////////////////////////////////////
+////
+/**
+ * Selects Element Nodes in DOM.
+ * @param  	{string} 	cssSelector 	Build a CSS Selector to target the element you want
+ * @return 			             		Will return either a single element or element collection
+ */
 function domEle( cssSelector ) {
 	if (document.querySelectorAll(cssSelector).length > 1) {
 		return document.querySelectorAll(cssSelector);
@@ -78,8 +95,18 @@ function domEle( cssSelector ) {
 	}
 }
 
-function domEleNext( elementNode ){ return elementNode.nextElementSibling; }
-function domElePrev( elementNode ){ return elementNode.previousElementSibling; }
+/**
+ * Get the next
+ * @param  {[type]} elementNode [description]
+ * @return {[type]}             [description]
+ */
+function domEleNext( elementNode ){
+	return elementNode.nextElementSibling;
+}
+
+function domElePrev( elementNode ){
+	return elementNode.previousElementSibling;
+}
 
 function domEleIndex(element) {
 	let step = -1;
@@ -93,9 +120,17 @@ function domEleIndex(element) {
 	return step;
 }
 
-function domEleInto( elementNode, elementNodeTarget ){ elementNodeTarget.append(elementNode); }
-function domEleAfter( elementNode, elementNodeTarget ){ elementNodeTarget.after(elementNode); }
-function domEleBefore( elementNode, elementNodeTarget ){ elementNodeTarget.before(elementNode); }
+function domEleInto( elementNode, elementNodeTarget ){
+	elementNodeTarget.append(elementNode);
+}
+
+function domEleAfter( elementNode, elementNodeTarget ){
+	elementNodeTarget.after(elementNode);
+}
+
+function domEleBefore( elementNode, elementNodeTarget ){
+	elementNodeTarget.before(elementNode);
+}
 
 function domEleSize( elementNode, measurement=null ){
 	switch (measurement) {
@@ -109,6 +144,16 @@ function domEleSize( elementNode, measurement=null ){
 			return [elementNode.offsetWidth, elementNode.offsetHeight];
 			break;
 	}
+}
+
+/**
+* textNode(): Returns the text node of an HTML element in the DOM
+* @param  (element) An HTML element object
+* @return (string)  The textNode contents of the elmement
+*/
+
+function domEleText( element ){
+  return element.innerText;
 }
 
 function domEleClasses( elementNode ){ return elementNode.className.split(" "); }
@@ -149,20 +194,153 @@ function domEleRemoveClass( elementNode, className ){
 	return result.join(" ");
 }
 
+
+////
+////////        Function Property Prototyping
+////////////////////////////////////////////////
+//// DOM Element Targeting and Manipulation
+/**
+ * Selects Element Nodes in DOM.
+ * @param  	{string} 	cssSelector 	Build a CSS Selector to target the element you want
+ * @return 			             		Will return either a single element or element collection
+ */
+function domEle( cssSelector ){
+	if( document.querySelectorAll(cssSelector).length > 1 ){
+		domEle.ele = document.querySelectorAll(cssSelector);
+		return document.querySelectorAll(cssSelector);
+	}else{
+		domEle.ele = document.querySelector(cssSelector);
+		return document.querySelector(cssSelector);
+	}
+}
+
+domEle.next = function(){
+	return this.ele.nextElementSibling;
+}
+
+domEle.prev = function(){
+	return this.ele.previousElementSibling;
+}
+
+domEle.index = function(){
+	let step = -1;
+	let indexElement = this.ele;
+
+	while( indexElement ){
+		step += 1;
+		indexElement = indexElement.previousElementSibling;
+	}
+
+	return step;
+}
+
+domEle.into = function( elementNodeTarget ){
+	elementNodeTarget.append(this.ele);
+}
+
+domEle.after = function( elementNodeTarget ){
+	elementNodeTarget.after(this.ele);
+}
+
+domEle.before = function( elementNodeTarget ){
+	elementNodeTarget.before(this.ele);
+}
+
+domEle.size = function( measurement=null ){
+	let measurements = [
+		["width", "x"],
+		["height", "y"]
+	];
+
+	if( measurements[0].includes(measurement) ){
+		return this.ele.offsetWidth;
+	}else if( measurements[1].includes(measurement) ){
+		return this.ele.offsetHeight;
+	}else{
+		return [this.ele.offsetWidth, this.ele.offsetHeight];
+	}
+}
+
+domEle.text = function(){
+	return this.ele.innerText;
+}
+
+domEle.classes = function(){
+	return this.ele.className.split(" ");
+}
+
+domEle.classes = function(){
+	return this.ele.classList;
+}
+
+domEle.class = function( className ){
+	return this.ele.classList.includes( className );
+}
+
+domEle.class = function( className ){
+	let classList = domEle.classes();
+
+	for( let a = 0; a <= classList.length; a++ ){
+		if( className === classList[a] ){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+domEle.empty = function(){
+	this.ele.innerHTML = null;
+}
+
+// @function          removeClass()
+//
+// @description       removes a single class from an htmler
+//                    To get HTML element class string
+//                    from DOM do element.className
+//
+// $measure [string]  A regular expression to match for
+
+/**
+ * Removes a single class from HTML element. 
+ * @return {string}           The new className
+ */
+domEle.removeClass = function( className ){
+	let classList = domEle.classes();
+	let result = [];
+	
+	for( s = 0; s <= classList.length; s++ ){
+		if( classList[s] === className ){}
+		else{
+			result.push(classList[s]);
+		}
+	}
+	
+	return result.join(" ");
+}
+
+
 ////
 ////////        DOM Prototypes
 ////////////////////////////////////////////////
 ////
+HTMLElement.prototype.prev = function(){
+	return this.previousElementSibling;
+}
 
-Object.prototype.prev = function(){
-	return this.previousElementSibling; }
-Object.prototype.next = function(){
-	return this.nextElementSibling; }
-Object.prototype.measure = function(measurement=null){
-	return [this.offsetHeight, this.offsetWidth]; }
-Object.prototype.classes = function(){
-	return this.className.split(" "); };
-Object.prototype.hasClass = function(className){
+HTMLElement.prototype.next = function(){
+	return this.nextElementSibling;
+}
+
+HTMLElement.prototype.measure = function(measurement=null){
+	return [this.offsetHeight, this.offsetWidth];
+}
+
+HTMLElement.prototype.classes = function(){
+	return this.className.split(" ");
+}
+
+HTMLElement.prototype.hasClass = function(className){
 	var classList = this.classList != 0 ? this.classList : null;;
 
 	if( classList !== null ){
@@ -175,6 +353,7 @@ Object.prototype.hasClass = function(className){
 		return false;
 	}else{ return null; }
 }
+
 
 ////
 ////////        AJAX

@@ -1,5 +1,5 @@
 ////
-////////        String
+////////        String Functions
 ////////////////////////////////////////////////
 ////
 
@@ -31,23 +31,17 @@ String.prototype.stringFind = function( string, regex ){
   return string.match(regex);
 }
 
-/////////////////////////////////
-///                           ///
-///       Typing Script       ///
-///                           ///
-///  ----------------------   ///
-///                           ///
-///  Automated typing         ///
-///                           ///
-/////////////////////////////////
+String.prototype.typeInto( elementNode ){
+  let typedString = [];
+  let step = 1;
 
-function typeIt(string, to) {
-  var hold = [];
-  var step = 1;
-  var tick = setInterval(function() {
-    if(step == string.length) { clearInterval(tick); };
-    hold.push(string.slice(step - 1, step));
+  let tick = setInterval(function() {
+    if( step == this.length ){
+    	clearInterval(tick);
+    }
+
+    typedString.push( this.slice(step - 1, step) );
     step += 1;
-    to.innerHTML = hold.join('');
+    elementNode.innerHTML = typedString.join('');
   }, 50);
 }

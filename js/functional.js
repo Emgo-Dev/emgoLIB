@@ -1,31 +1,7 @@
-///////////////////////////////////////
-///                                 ///
-///  Functional Programming         ///
-///                                 ///
-///  **********************         ///
-///                                 ///
-///  Functions conforming thereof.  ///
-///                                 ///
-//////////////////////////////////////////
-///            PRINCIPLES              ///
-///  Purity (Pure/Impure Functions)    ///
-///  Mutability (Mutable/Immutable)    ///
-///  Higher-Order Functions            ///
-///  Closures                          ///
-///  Composition                       ///
-///  Recursion                         ///
-//////////////////////////////////////////
-
-
-/**
-* textNode(): Returns the text node of an HTML element in the DOM
-* @param  (element) An HTML element object
-* @return (string)  The textNode contents of the elmement
-*/
-
-function htmlTextOf( element ){
-  return element.innerText;
-}
+////
+////////        Functional Functions
+////////////////////////////////////////////////
+////
 
 /**
 * interval(): Perform function periodically
