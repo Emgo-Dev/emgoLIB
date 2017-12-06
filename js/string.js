@@ -3,6 +3,11 @@
 ////////////////////////////////////////////////
 ////
 
+
+String.prototype.toCapital = function(){
+	return this[0].toUpperCase().concat(this.slice(1,this.length));
+}
+
 /*
 * splitBy(): Performs the String.split() method. Meant to extend context of original method name.
 */
