@@ -4,54 +4,95 @@
 ////
 
 function add( a, b ){
-  return a + b;
+	return a + b;
 }
 
 function subtract( a, b ){
-  return a - b;
+	return a - b;
 }
 
 function multiply( a, b ){
-  return a * b;
+	return a * b;
 }
 
 function divide( a, b ){
-  return a / b;
+	return a / b;
 }
 
 function sum( numberCollection ){
-  let sumTotal = 0;
+	let sumTotal = 0;
 
-  for( let a = 0; a <= numberCollection.length; a++ ){
-    sumTotal += numberCollection[a];
-  }
+	numberCollection.forEach((x)=>{ sumTotal += x; })
 
-  return sumTotal;
+	return sumTotal;
 }
 
 function sumOf( numberCollection ){
-  sum( numberCollection );
+	return sum( numberCollection );
 }
 
 function product( numberCollection ){
-  let productTotal = 1; // Using 1 sets to first index with *= operator.
+	let productTotal = 1; // Setting to 0 would cancel out any operation using *= operator
 
-  for( let a = 0; a <= numberCollection.length; a++ ){
-    productTotal *= numberCollection[a];
-  }
+	numberCollection.forEach((x)=>{ productTotal *= x; })
 
-  return productTotal;
+	return productTotal;
 }
 
 function productOf( numberCollection ){
-  product( numberCollection );
+	product( numberCollection );
 }
 
-function gatherrange( a, b ){
-  var c = [];
-  while( a <= b ){
-    c.push(a);
-    a++;
-  }
-  return c;
+function rangeOf( a, b ){
+	var c = [];
+	
+	while( a <= b ){
+		c.push(a);
+		a++;
+	}
+	
+	return c;
+}
+
+////
+////////        Area Formulai
+////////////////////////////////////////////////
+//// http://www.mathsisfun.com/area.html
+
+function areaOfCircle( radius ){
+	return Math.PI * radius * radius;
+}
+
+function areaOfEllipse( width, height ){
+	return Math.PI * width * height;
+}
+
+function areaOfParallelogram( width, height ){
+	return width * height;
+}
+
+function areaOfRectangle( width, height ){
+	return width * height;
+}
+
+function areaOfSquare( side ){
+	return side * side;
+}
+
+function areaOfTrapezoid( width1, width2, height ){
+	return ((width1 + width2) * height) / 2;
+}
+
+function areaOfTriangle( width, height ){
+	return width * height / 2;
+}
+
+function circumferenceOfCircle( radius ){
+	return areaOfCircle( radius ) * 2;
+}
+
+function getPerimiter( measurements ){
+	var perimiter = 0;
+
+	measurements.forEach((x)=>{ perimiter += x; });
 }
