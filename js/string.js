@@ -3,8 +3,14 @@
 ////////////////////////////////////////////////
 ////
 
+/**
+ * Capitalize first letter
+ * @return  {string}  String with capitalized leading character
+ */
+const toCapital = string => { return string.slice(0, 1).toUpperCase() + string.slice(1); }
+
 String.prototype.toCapital = function(){
-	return this[0].toUpperCase().concat(this.slice(1,this.length));
+  return string.slice(0, 1).toUpperCase() + string.slice(1);
 }
 
 String.prototype.typeInto( elementNode ){
