@@ -61,6 +61,32 @@ const toMeridiem12 = int => {
 }
 
 /**
+ * Prepends '0' Placeholder Digit X times
+ * @param		{string}	string	[The data to format.]
+ * @param		{integer}	count		[The digit length to maintain.]
+ * @return	{string}					[Formatted data. Example: "1" -> "01".]
+ */
+const toDigits = ( integer=0, digitCount=1 ) => {
+	return integer.toString().padStart(digitCount, "0");
+}
+
+/**
+ * Formats a Time String
+ * Maintains double digit format for time strings.
+ * @param		{string}	time	[The time string.]
+ * @return	{string}				[Formatted string (H:M:SS -> HH:MM:SS).]
+ */
+const toTimeFormat = ( time ) => {
+	let times = time.split(":");
+
+	times.forEach( (x,y,z) => {
+		z[y] = toDigits(x, 2);
+	});
+
+	return times.join(":");
+}
+
+/**
  * Type Into Element
  * Inserts text into an element letter by letter to imitate typing.
  * @param	{HTMLelement}	elementNode	Element to type string into
