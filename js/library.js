@@ -3,16 +3,16 @@
 ////////////////////////////////////////////////
 ////
 
-var Calendar = {
-	Month: ["january", "februrary", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"],
+const Calendar = {
+	Months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 
-	MonthLength: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+	Days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 
 	Holidays: [
-		[10, 23, "Thanksgiving Day"],
-		[11, 25, "Christmas Eve"],
-		[11, 25, "Christmas Day"],
-		[11, 31, "New Years Eve"]
+		[[10, 23], "Thanksgiving Day"],
+		[[11, 25], "Christmas Eve"],
+		[[11, 25], "Christmas Day"],
+		[[11, 31], "New Years Eve"]
 	],
 
 	getMonth( index ){
