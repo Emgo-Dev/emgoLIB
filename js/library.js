@@ -15,36 +15,71 @@ const Calendar = {
 		[[11, 31], "New Years Eve"]
 	],
 
-	getMonth( index ){
-		return this.Month[index]
+	getDays( index = ( new Date().getMonth() ) ){
+		if( typeof index !== "number" ){
+			throw new Error("Parameter given to getMonth() was not a number.");
+		}else if( index < 0 ){ index = 0; }else if( index > 11 ){ index = 11; }
+
+		return this.Days[index];
+	}
+
+	getDaysOf( string ){
+		let monthIndex = 0;
+
+		for( month of this.Months ){
+			if( string.toLowerCase() === month.toLowerCase() ){ return this.Days[monthIndex]; }
+
+			monthIndex++;
+		}
 	},
 
-	getMonthOf( shortMonth ){
-		for( var a = 0; a < this.Month.length; a++ ){
-			var match = 1;
-			if( shortMonth[0].toLowerCase() === this.Month[a][0] ){
-				for( var b = 1; b < 3; b++ ){
-					match+=1;
-					if( shortMonth[b].toLowerCase() !== this.Month[a][b] ){ break; }
-					else if( match === 3 ){ return this.Month[a]; }
-				}
-			}
+	getMonth( index = ( new Date().getMonth() ) ){
+		if( typeof index !== "number" ){
+			throw new Error("Parameter given to getMonth() was not a number.");
+		}else if( index < 0 ){ index = 0; }else if( index > 11 ){ index = 11; }
+
+		return this.Months[index];
+	},
+
+	getMonthShort( index = null ){
+		return this.getMonth( index ).slice(0, 3);
+	},
+
+	getMonths(){
+		return this.Months;
+	},
+
+	toFullMonth( string=this ){
+		console.log(string);
+		if( typeof string !== "string" ){
+			throw new Error("Parameter given to toFullMonth() was not a string.");
+		}else if( string.length !== 3 ){
+			throw new Error("Parameter given to toFullMonth() was not a short month name.");
 		}
-	}
-}
 
-function getMeridiemOf( hour ){
-	if( hour > 11 ){
-		return "PM";
-	}else{
-		return "AM";
-	}	
-}
+		let monthIndex = 0;
 
-Date.prototype.toMeridiem = function(){
-	if( this.getHour() > 11 ){
-		return "PM";
-	}else{
-		return "AM";
+		for( month of this.Months ){
+			if( month.slice(0, 1).toLowerCase() === string.slice(0, 1).toLowerCase() ){
+				let letterIndex = 0;
+				let monthMatch = month.slice(0, 3);
+				for( letter of monthMatch ){
+					if( letter !== string.slice(letterIndex, letterIndex+1) ){ break; }
+					letterIndex++;
+				}
+
+				return month;
+			}
+
+			monthIndex++;
+		}
+	},
+
+	toShortMonth( string=this ){
+		if( typeof string !== "string" ){
+			throw new Error("Parameter given to toFullMonth() was not a string.");
+		}
+		
+		return string.slice(0, 3);
 	}
 }
