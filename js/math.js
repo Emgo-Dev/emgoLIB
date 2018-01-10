@@ -43,8 +43,8 @@ function productOf( numberCollection ){
 	product( numberCollection );
 }
 
-function rangeOf( a, b ){
-	var c = [];
+function getIntBetween( a, b ){
+	let c = [];
 	
 	while( a <= b ){
 		c.push(a);
@@ -92,7 +92,7 @@ function circumferenceOfCircle( radius ){
 }
 
 function getPerimiter( measurements ){
-	var perimiter = 0;
+	let perimiter = 0;
 
 	measurements.forEach((x)=>{ perimiter += x; });
 }
