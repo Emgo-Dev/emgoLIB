@@ -1,11 +1,9 @@
 ////
 ////////        Class
 ////////////////////////////////////////////////
-//// DOM element targeting and manipulation
-/**
- * Class that bundles some useful methods.
-*/
-let DOM = {
+////
+
+const DOM = {
 	ele( selector ){
 		if (document.querySelectorAll(selector).length > 1) {
 			return document.querySelectorAll(selector);
@@ -55,7 +53,7 @@ let DOM = {
 		let elementNodeCollection = [];
 
 		// Create Elements
-		for( schematic of objectSchematicCollection ){
+		for( let schematic of objectSchematicCollection ){
 			elementNodeCollection.push( document.createElement(schematic.Type) );
 
 			schematic.Attributes.forEach( x => elementNodeCollection[elementNodeCollection.length-1].setAttribute(x.Name, x.Value) );
@@ -67,21 +65,19 @@ let DOM = {
 			}
 		}
 
-		// for( element of el ){ // console.log(element); // Debug }
+		// Debug 
+		// for( element of el ){ console.log(element); }
 
 		return elementNodeCollection;
-	},
-
-	modifyTextNodeOf( element, value ){
-		element.innerHTML = value;
 	}
-}
+};
 
 
 ////
 ////////        Function Property Prototyping
 ////////////////////////////////////////////////
 //// DOM Element Targeting and Manipulation
+
 /**
  * Selects Element Nodes in DOM.
  * @param  	{string} 	cssSelector 	Build a CSS Selector to target the element you want
@@ -97,13 +93,9 @@ function domEle( cssSelector ){
 	}
 }
 
-domEle.next = function(){
-	return this.ele.nextElementSibling;
-}
+domEle.next = () =>	{ return this.ele.nextElementSibling; }
 
-domEle.prev = function(){
-	return this.ele.previousElementSibling;
-}
+domEle.prev = () =>	{ return this.ele.previousElementSibling; }
 
 domEle.index = function(){
 	let step = -1;
@@ -117,17 +109,11 @@ domEle.index = function(){
 	return step;
 }
 
-domEle.into = function( elementNodeTarget ){
-	elementNodeTarget.append(this.ele);
-}
+domEle.into = ( elementNodeTarget ) => { elementNodeTarget.append(this.ele); }
 
-domEle.after = function( elementNodeTarget ){
-	elementNodeTarget.after(this.ele);
-}
+domEle.after = ( elementNodeTarget ) => { elementNodeTarget.after(this.ele); }
 
-domEle.before = function( elementNodeTarget ){
-	elementNodeTarget.before(this.ele);
-}
+domEle.before = ( elementNodeTarget ) => { elementNodeTarget.before(this.ele); }
 
 domEle.size = function( measurement=null ){
 	let measurements = [
@@ -144,21 +130,13 @@ domEle.size = function( measurement=null ){
 	}
 }
 
-domEle.text = function(){
-	return this.ele.innerText;
-}
+domEle.text = () => { return this.ele.innerText; }
 
-domEle.classes = function(){
-	return this.ele.className.split(" ");
-}
+domEle.classes = () => { return this.ele.className.split(" "); }
 
-domEle.classes = function(){
-	return this.ele.classList;
-}
+domEle.classes = () => { return this.ele.classList; }
 
-domEle.class = function( className ){
-	return this.ele.classList.includes( className );
-}
+domEle.class = ( className ) => { return this.ele.classList.includes( className ); }
 
 domEle.class = function( className ){
 	let classList = domEle.classes();
@@ -172,15 +150,13 @@ domEle.class = function( className ){
 	return false;
 }
 
-domEle.empty = function(){
-	this.ele.innerHTML = null;
-}
+domEle.empty = () => { this.ele.innerHTML = null; }
 
 domEle.removeClass = function( className ){
 	let classList = domEle.classes();
 	let result = [];
 	
-	for( s = 0; s <= classList.length; s++ ){
+	for( let s = 0; s <= classList.length; s++ ){
 		if( classList[s] === className ){}
 		else{
 			result.push(classList[s]);
@@ -195,24 +171,16 @@ domEle.removeClass = function( className ){
 ////////        DOM Prototypes
 ////////////////////////////////////////////////
 ////
-HTMLElement.prototype.prev = function(){
-	return this.previousElementSibling;
-}
+HTMLElement.prototype.prev = () => { return this.previousElementSibling; }
 
-HTMLElement.prototype.next = function(){
-	return this.nextElementSibling;
-}
+HTMLElement.prototype.next = () => { return this.nextElementSibling; }
 
-HTMLElement.prototype.measure = function(measurement=null){
-	return [this.offsetHeight, this.offsetWidth];
-}
+HTMLElement.prototype.measure = ( measurement=null ) => { return [this.offsetHeight, this.offsetWidth]; }
 
-HTMLElement.prototype.classes = function(){
-	return this.className.split(" ");
-}
+HTMLElement.prototype.classes = () => { return this.className.split(" "); }
 
-HTMLElement.prototype.hasClass = function(className){
-	var classList = this.classList != 0 ? this.classList : null;;
+HTMLElement.prototype.hasClass = function( className ){
+	var classList = this.classList !== 0 ? this.classList : null;
 
 	if( classList !== null ){
 		for (var s=0; s<=this.classList.length; s++) {
@@ -232,11 +200,11 @@ HTMLElement.prototype.hasClass = function(className){
 ////
 
 function ajaxREQ(type, url, post) {
-	let httpRequest = new XMLHttpRequest();
+	var httpRequest = new XMLHttpRequest();
 
 	if( !httpRequest ){ return false; }
 
-	httpRequest.onreadystatechange = ajaxget;
+	httpRequest.onreadystatechange = ajaxRET;
 	httpRequest.open(type, url);
 	httpRequest.send(post);
 }
