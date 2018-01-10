@@ -25,6 +25,24 @@ const toSuffix = int => {
   return suffix[0].includes(digits[0]) && (digits[1] < 11 || digits[1] > 13) ? int + suffix[1][digits[0]-1] : int + suffix[1][3];
 }
 
+const getMeridiem = int => {
+  int = parseInt(int);
+  
+  return int > 11 ? "pm" : "am";
+}
+
+const toMeridiem = int => {
+  int = parseInt(int);
+  
+  return int > 11 ? int + "pm" : int + "am";
+}
+
+const toMeridiem12 = int => {
+  int = parseInt(int);
+  
+  return int > 11 ? int%12 + "pm" : int%12 + "am";
+}
+
 String.prototype.typeInto( elementNode ){
   let typedString = [];
   let step = 1;
