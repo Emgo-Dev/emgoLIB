@@ -21,7 +21,7 @@ const Calendar = {
 		}else if( index < 0 ){ index = 0; }else if( index > 11 ){ index = 11; }
 
 		return this.Days[index];
-	}
+	},
 
 	getDaysOf( string ){
 		let monthIndex = 0;
