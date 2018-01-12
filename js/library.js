@@ -3,10 +3,37 @@
 ////////////////////////////////////////////////
 ////
 
+Class Time {
+	constructor(){
+		
+	}
+}
+
+Class Clock {
+	constructor(){
+		this.Miliseconds = 86400000,
+		this.Seconds = 86400,
+		this.Minutes = 1440,
+		this.Hours = 24,
+	}
+
+	getNow(){ return new Date() },
+
+	getMiliseconds(){ return this.Miliseconds; },
+
+	getSeconds(){ return this.Miliseconds / 1000; },
+
+	getMinutes(){ return this.getSeconds() / 60; },
+
+	getHours(){ return this.getMinutes() / 60; }
+}
+
 const Calendar = {
 	Months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 
 	Days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+
+	getToday(){ return new Date(`${getNow().getMonth()+1}/${getNow().getDay()}/${getFullYear()}`); },
 
 	Holidays: [
 		[[10, 23], "Thanksgiving Day"],
