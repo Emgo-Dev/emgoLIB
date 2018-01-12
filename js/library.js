@@ -15,6 +15,8 @@ const Calendar = {
 		[[11, 31], "New Years Eve"]
 	],
 
+	getTomorrow( timestamp ){ return },
+
 	getDays( index = ( new Date().getMonth() ) ){
 		if( typeof index !== "number" ){
 			throw new Error("Parameter given to getMonth() was not a number.");
