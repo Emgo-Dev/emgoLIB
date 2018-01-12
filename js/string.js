@@ -4,22 +4,25 @@
 ////
 
 /**
- * Capitalize first letter
- * The focus of this functions action is to capitalize the first letter of a selection of text as is a common practice in literature for leading words in a sentence or nouns. Therefore the name 'toCapital' distinguishes itself from 'toUpperCase' or 'toLowerCase'.
- * 
- * @return	{string}	The given parameter with its' leading character capitalized.
+ * Capitalize first letter of string
+ * Distinguished from String.toUpperCase which capitalizes all characters.
+ * @param		{string}	string	String of words. First character should not be alaphanumeric.
+ * @return	{string}					String with first character capitalized.
+ *                            Example: "hello" -> "Hello"
  */
-const toCapital = string => { return string.slice(0, 1).toUpperCase() + string.slice(1); }
+const toCapital = string => { return string.slice(0, 1).toUpperCase().concat(string.slice(1)); }
 
-String.prototype.toCapital = function(){
+String.prototype.toCapital = () => {
 	return string.slice(0, 1).toUpperCase() + string.slice(1);
 }
 
 /**
- * Determine ordinal suffix
- * @return	{string}	The given integer with an ordinal suffix. No spacing between.
+ * Stringify integer affixed w/ ordinal
+ * @param		{integer}	int Should be a whole number.
+ * @return	{string}			Stringified int with ordinal. No spaces.
+ *                        Example: 1 -> "1st"
  */
-const toSuffix = int => {
+const toOrdinal = int => {
 	int = parseInt(int);
 	var digits = [ (int % 10), (int % 100)];
 	var suffix = [[1, 2, 3, 4], ["st", "nd", "rd", "th"]];
@@ -28,9 +31,10 @@ const toSuffix = int => {
 }
 
 /**
- * Determine meridiem
- * @param		{integer}	int	Hour to determine appropriate meridiem of
- * @return	{string}			The meridiem of int.
+ * Return meridiem
+ * @param	{integer}	int	Hour to determine appropriate meridiem of.
+ * @return	{string}	Stringified int affixed with meridiem
+ *                      Example: 7 -> "am"
  */
 const getMeridiem = int => {
 	int = parseInt(int);
@@ -39,9 +43,10 @@ const getMeridiem = int => {
 }
 
 /**
- * Affix meridiem
- * @param		{integer}	int	Hour to determine appropriate meridiem of
- * @return	{string}				The int concatenated with meridiem. Example: "1pm".
+ * Stringify integer affixed w/ meridiem
+ * @param		{integer}	int	Hour to determine appropriate meridiem of.
+ * @return	{string}			Stringified int affixed with meridiem.
+ *                        Example: 7 -> "7am"
  */
 const toMeridiem = int => {
 	int = parseInt(int);
@@ -50,42 +55,78 @@ const toMeridiem = int => {
 }
 
 /**
- * Convert & affix meridiem
- * @param		{integer}	int	Hour to determine appropriate meridiem of
- * @return	{[type]}     	The int (12 hour format) concatenated with meridiem.
+ * Stringify & transform integer to 12 hour format affixed w/ meridiem
+ * @param		{integer}	int	Hour to determine appropriate meridiem of.
+ * @return	{string}			Stringified int operated by % and affixed with meridiem.
+ *                        Example: 13 -> "1pm"
  */
 const toMeridiem12 = int => {
 	int = parseInt(int);
+	const meridiems = ["am", "pm"];
+	let period = int > 11 ? 1 : 2;
 	
-	return int > 11 ? int%12 + "pm" : int%12 + "am";
+	return int === 0 || int === 12 || int === 24 ? 12 + meridiems[period] : int % 12 + meridiems[period];
 }
 
 /**
- * Prepends '0' Placeholder Digit X times
- * @param		{string}	string	[The data to format.]
- * @param		{integer}	count		[The digit length to maintain.]
- * @return	{string}					[Formatted data. Example: "1" -> "01".]
+ * Transform integer to 12 hour format
+ * @param		{integer}	int	Integer to transform. Represents an hour.
+ * @return	{integer}			Result of int and modulo.
+ *                        Example: 13 -> 1
+ */
+const to12Hour = ( int ) => {
+	int = parseInt(int);
+
+	return int === 0 || int === 12 || int === 24 ? 12 : int % 12;
+}
+
+/**
+ * Affix "0" X times to integer
+ * Maintain the digit length of an integer.
+ * @param		{integer}	int The integer to remain unchanged
+ * @param		{integer}	len	The digit length to maintain
+ * @param		{integer}	dir	Side of integer to maintain digit length
+ * @return	{string}			Example: "1" -> "01" / "10".
  */
 const setDigits = ( int=0, len=1, dir=0 ) => {
 	return dir > 0 ? int.toString().padStart(len, "0") : int.toString().padEnd(len, "0");
 }
 
 /**
- * Format Numbers
+ * Format
  * Maintains double digit format for time strings.
  * @param		{string}	time	[The time string.]
  * @return	{string}				[Formatted string (H:M:SS -> HH:MM:SS).]
  */
-const getColonTime = ( times )=>{
+let getColonTime = ( times )=>{
 	return times.map( t => setDigits(t, 2, 1) ).join(":");
 }
 
-const to12Hour = ( int ) => { return int === 0 || int === 12 || int === 24 ? 12 : int % 12; }
+/**
+ * Format colon timestamp
+ * @param		{Date}	date	A date object
+ * @return	{string}			Formatted string from date object representing current time (HH:MM:SS).
+ */
+let toColonTime = ( date ) => {
+	let times = [ date.getHours(), date.getMinutes(), date.getSeconds() ];
+	return times.map( t => setDigits(t, 2, 1) ).join(":");
+}
 
 /**
- * Format Integer w/ Commas
- * @param		{integer}	int	[The number to format]
- * @return	{string}			[Formatted number]
+ * Format colon timestamp (12 hour format)
+ * @param		{Date}	date	A date object
+ * @return	{string}			Formatted string from date object representing current time (HH:MM:SS).
+ */
+let toColonTime12 = ( date ) => {
+	let times = [ to12Hour(date.getHours()), date.getMinutes(), date.getSeconds() ];
+	return times.map( t => setDigits(t, 2, 1) ).join(":");
+}
+
+/**
+ * Stringify and transform integer to written number
+ * @param		{integer}	int	Plain number
+ * @return	{string}			Stringified int with commas
+ *                        Example: 100000 -> "100,000"
  */
 const getWrittenNumb = ( int ) => {
 	let number = int.toString();
@@ -121,7 +162,7 @@ const toWrittenPrice = ( number ) => {
  * Inserts text into an element letter by letter to imitate typing.
  * @param	{HTMLelement}	elementNode	Element to type string into
  */
-String.prototype.typeInto( elementNode ){
+String.prototype.typeInto = ( elementNode ) => {
 	let typedString = [];
 	let step = 1;
 
