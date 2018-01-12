@@ -35,6 +35,8 @@ These ordinal suffixes occur in a particular pattern in the English language. Th
 toOrdinal(25); // returns "25th"
 ```
 
+[30-seconds-of-code](https://github.com/Chalarangelo/30-seconds-of-code/pull/71/files)
+
 ### Meridiem: Morning or Afternoon?
 
 JavaScripts Date object doesn't provide AM or PM without calling the entire date. You get can the current hour as an integer, so this function determines the meridiem from the 24 hour int returned.
