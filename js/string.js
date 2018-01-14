@@ -1,7 +1,32 @@
-////
-////////        String Functions
-////////////////////////////////////////////////
-////
+const logMessage = string => { console.log(string) }
+
+const logError = string => { throw Error(string) }
+
+const logTypeError = string => { throw TypeError(string) }
+
+const dataTypes = ["boolean", "null", "undefined", "string", "number", "object", "symbol"]
+
+const toValidDataType = string => string.toString().toLowerCase()
+
+const isValidDataType = ( type ) => {
+	var isValidDataTypeFilter = a => a === type
+	var types = ["boolean", "null", "undefined", "string", "number", "object", "symbol"]
+	
+	return types.filter(isTypeMatcher).length > 0 ? true : false
+}
+
+const isDataType = ( data, type ) => {
+	typeof type === "string" ? null : logTypeError(`The data type of (${type}) parameter needs to be a string.`)
+
+	type = toValidDataType(type)
+	isValidDataType(type) ? null : logError(`Given parameter value ("${type}") does not match one of these ("${types.join("\", \"")}") valid data types.`)
+
+	return typeof data === type ? true : false
+}
+
+const checkType = ( data, type ) => {
+	isDataType(data, type) ? true : logTypeError(`${data} was expected to be a ${type} data type`)
+}
 
 /**
  * Capitalize first letter of string
@@ -10,10 +35,10 @@
  * @return  {string}  String with first character capitalized.
  *                    Example: "hello" -> "Hello"
  */
-const toCapital = string => { return string.slice(0, 1).toUpperCase().concat(string.slice(1)); }
+const toCapital = (string, lowerRest=0) => {
+	isDataType(string, "string") ? null : logError(`toCapital() requires ${string} data type be a string.`)
 
-String.prototype.toCapital = () => {
-	return string.slice(0, 1).toUpperCase() + string.slice(1);
+	return string.slice(0, 1).toUpperCase().concat((lowerRest === 1 ? string.slice(1).toLowerCase() : string.slice(1)))
 }
 
 /**
@@ -23,11 +48,10 @@ String.prototype.toCapital = () => {
  *                     Example: 1 -> "1st"
  */
 const toOrdinal = int => {
-	int = parseInt(int);
-	var digits = [ (int % 10), (int % 100)];
-	var suffix = [[1, 2, 3, 4], ["st", "nd", "rd", "th"]];
+	var digits = [(parseInt(int)%10), (parseInt(int)%100)];
+	var suffixPattern = [[1, 2, 3, 4], ["st", "nd", "rd", "th"]];
 
-	return suffix[0].includes(digits[0]) && (digits[1] < 11 || digits[1] > 13) ? int + suffix[1][digits[0]-1] : int + suffix[1][3];
+	return suffixPattern[0].includes(digits[0]) && (digits[1] < 11 || digits[1] > 13) ? int + suffixPattern[1][digits[0]-1] : int + suffixPattern[1][3];
 }
 
 /**
@@ -61,11 +85,7 @@ const toMeridiem = int => {
  * @return  {string}        Stringified int affixed with meridiem
  *                          Example: 7 -> "am"
  */
-const to12Hour = ( int ) => {
-	int = parseInt(int);
-
-	return int === 0 || int === 12 || int === 24 ? 12 : int % 12;
-}
+const getMeridiem = string => string.slice(-2)
 
 /**
  * Affix "0" X times to integer
@@ -94,10 +114,8 @@ let getColonTime = times => {
  * @param   {Date}  date  A date object
  * @return  {string}			Formatted string from date object representing current time (HH:MM:SS).
  */
-let toColonTime = ( date ) => {
-	let times = [ date.getHours(), date.getMinutes(), date.getSeconds() ];
-	return times.map( t => setDigits(t, 2, 1) ).join(":");
-}
+let toColonTime = ( date, hour12=0 ) => {
+	let times = [ (hour12 ? date.getHours() : to12Hour(date.getHours())), date.getMinutes(), date.getSeconds() ];
 
 	return times.map( t => setDigits(t, 2, 1) ).join(":");
 }
@@ -108,16 +126,20 @@ let toColonTime = ( date ) => {
  * @return  {string}        Stringified int with commas
  *                          Example: 100000 -> "100,000"
  */
+const toWrittenNumb = int => {
+	isDataType(int, "number") ? null : logError(`toWrittenNumb() requires ${int} data type be a number.`)
+	let number = int.toString()
+	let readableInt = ""
 
 	for( let a = number.length-1, b=0; a >= 0; a--, b++ ){
 		// Read through number backwards (number[a--])
 		// Use modulo to find every 3rd digit, excluding 0 because 0%3 === 3%3
-		if( (b > 0) && ((b%3) === 0) ){ readableInt += seperator; }
+		if( (b > 0) && ((b%3) === 0) ){ readableInt = readableInt.concat(","); }
 
-		readableInt += number[a];
+		readableInt = readableInt.concat(number[a])
 	}
 
-	return readableInt.split("").reverse().join("");
+	return readableInt.split("").reverse().join("")
 }
 
 /**
@@ -125,11 +147,13 @@ let toColonTime = ( date ) => {
  * @param   {integer/float}  number  [A number to conver to a real price]
  * @return  {string}                 [description]
  */
-const toWrittenPrice = ( number ) => { 
-	number = number.toString();
-	let parts = number.search(/[.]/g) > 0 ? number.split(".") : [number, ""];
+const toWrittenPrice = ( int, useSymbol=0 ) => { 
+	isDataType(int, "number") ? null : logError(`toWrittenNumb() requires ${int} data type be a number.`)
+	let number = int.toString()
+	let parts = number.search(/[.]/g) > 0 ? number.split(".") : [number, ""]
+	let prefix = useSymbol ? "$" : ""
 
-	return parts[0].concat("." + parts[1].padEnd(2, "0"));
+	return prefix.concat(toWrittenNumb(parseInt(parts[0]))).concat(".").concat(setDigits(parts[1], 2))
 }
 
 /**
