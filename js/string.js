@@ -8,11 +8,10 @@ const dataTypes = ["boolean", "null", "undefined", "string", "number", "object",
 
 const toValidDataType = string => string.toString().toLowerCase()
 
-const isValidDataType = ( type ) => {
-	var isValidDataTypeFilter = a => a === type
+const isValidDataType = type => { 
 	var types = ["boolean", "null", "undefined", "string", "number", "object", "symbol"]
 	
-	return types.filter(isTypeMatcher).length > 0 ? true : false
+	return types.filter(a => type === a).length > 0 ? true : false
 }
 
 const isDataType = ( data, type ) => {
