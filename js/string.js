@@ -36,10 +36,10 @@ const toOrdinal = int => {
  * @return  {integer}       Result of int and modulo.
  *                          Example: 13 -> 1
  */
-const getMeridiem = int => {
-	int = parseInt(int);
-	
-	return int > 11 ? "pm" : "am";
+const to12Hour = int => {
+	isDataType(int, "number") ? null : logError(`to12Hour() requires ${int} data type be a number.`)
+
+	return int === 0 || int === 12 || int === 24 ? 12 : int % 12
 }
 
 /**
@@ -49,23 +49,10 @@ const getMeridiem = int => {
  *                          Example: 7 -> "7am"
  */
 const toMeridiem = int => {
-	int = parseInt(int);
-	
-	return int > 11 ? int + "pm" : int + "am";
-}
+	isDataType(int, "number") ? null : logError(`toMeridiem() requires ${int} data type be a number.`)
+	meridiem = int > 11 ? "pm" : "am"
 
-/**
- * Stringify & transform integer to 12 hour format affixed w/ meridiem
- * @param		{integer}	int	Hour to determine appropriate meridiem of.
- * @return	{string}			Stringified int operated by % and affixed with meridiem.
- *                        Example: 13 -> "1pm"
- */
-const toMeridiem12 = int => {
-	int = parseInt(int);
-	const meridiems = ["am", "pm"];
-	let period = int > 11 ? 1 : 2;
-	
-	return int === 0 || int === 12 || int === 24 ? 12 + meridiems[period] : int % 12 + meridiems[period];
+	return to12Hour.toString().concat(meridiem)
 }
 
 /**
@@ -98,7 +85,7 @@ const setDigits = ( int=0, len=1, dir=0 ) => {
  * @param   {string}  time  [The time string.]
  * @return  {string}				[Formatted string (H:M:SS -> HH:MM:SS).]
  */
-let getColonTime = ( times )=>{
+let getColonTime = times => {
 	return times.map( t => setDigits(t, 2, 1) ).join(":");
 }
 
@@ -112,13 +99,6 @@ let toColonTime = ( date ) => {
 	return times.map( t => setDigits(t, 2, 1) ).join(":");
 }
 
-/**
- * Format colon timestamp (12 hour format)
- * @param		{Date}	date	A date object
- * @return	{string}			Formatted string from date object representing current time (HH:MM:SS).
- */
-let toColonTime12 = ( date ) => {
-	let times = [ to12Hour(date.getHours()), date.getMinutes(), date.getSeconds() ];
 	return times.map( t => setDigits(t, 2, 1) ).join(":");
 }
 
@@ -128,11 +108,6 @@ let toColonTime12 = ( date ) => {
  * @return  {string}        Stringified int with commas
  *                          Example: 100000 -> "100,000"
  */
-const getWrittenNumb = ( int ) => {
-	let number = int.toString();
-	const seperator = ",";
-	let length = number.length;
-	let readableInt = "";
 
 	for( let a = number.length-1, b=0; a >= 0; a--, b++ ){
 		// Read through number backwards (number[a--])
