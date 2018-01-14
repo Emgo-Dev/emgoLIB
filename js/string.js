@@ -6,9 +6,9 @@
 /**
  * Capitalize first letter of string
  * Distinguished from String.toUpperCase which capitalizes all characters.
- * @param		{string}	string	String of words. First character should not be alaphanumeric.
- * @return	{string}					String with first character capitalized.
- *                            Example: "hello" -> "Hello"
+ * @param   {string}  string	String of words. First character should not be alaphanumeric.
+ * @return  {string}  String with first character capitalized.
+ *                    Example: "hello" -> "Hello"
  */
 const toCapital = string => { return string.slice(0, 1).toUpperCase().concat(string.slice(1)); }
 
@@ -18,9 +18,9 @@ String.prototype.toCapital = () => {
 
 /**
  * Stringify integer affixed w/ ordinal
- * @param		{integer}	int Should be a whole number.
- * @return	{string}			Stringified int with ordinal. No spaces.
- *                        Example: 1 -> "1st"
+ * @param   {integer}  int Should be a whole number.
+ * @return  {string}   Stringified int with ordinal. No spaces.
+ *                     Example: 1 -> "1st"
  */
 const toOrdinal = int => {
 	int = parseInt(int);
@@ -31,10 +31,10 @@ const toOrdinal = int => {
 }
 
 /**
- * Return meridiem
- * @param	{integer}	int	Hour to determine appropriate meridiem of.
- * @return	{string}	Stringified int affixed with meridiem
- *                      Example: 7 -> "am"
+ * Transform integer to 12 hour format
+ * @param   {integer}  int  Integer to transform. Represents an hour.
+ * @return  {integer}       Result of int and modulo.
+ *                          Example: 13 -> 1
  */
 const getMeridiem = int => {
 	int = parseInt(int);
@@ -44,9 +44,9 @@ const getMeridiem = int => {
 
 /**
  * Stringify integer affixed w/ meridiem
- * @param		{integer}	int	Hour to determine appropriate meridiem of.
- * @return	{string}			Stringified int affixed with meridiem.
- *                        Example: 7 -> "7am"
+ * @param   {integer}  int  Hour to determine appropriate meridiem of.
+ * @return  {string}        Stringified int affixed with meridiem.
+ *                          Example: 7 -> "7am"
  */
 const toMeridiem = int => {
 	int = parseInt(int);
@@ -69,10 +69,10 @@ const toMeridiem12 = int => {
 }
 
 /**
- * Transform integer to 12 hour format
- * @param		{integer}	int	Integer to transform. Represents an hour.
- * @return	{integer}			Result of int and modulo.
- *                        Example: 13 -> 1
+ * Return meridiem
+ * @param   {integer}  int	Hour to determine appropriate meridiem of.
+ * @return  {string}        Stringified int affixed with meridiem
+ *                          Example: 7 -> "am"
  */
 const to12Hour = ( int ) => {
 	int = parseInt(int);
@@ -83,10 +83,10 @@ const to12Hour = ( int ) => {
 /**
  * Affix "0" X times to integer
  * Maintain the digit length of an integer.
- * @param		{integer}	int The integer to remain unchanged
- * @param		{integer}	len	The digit length to maintain
- * @param		{integer}	dir	Side of integer to maintain digit length
- * @return	{string}			Example: "1" -> "01" / "10".
+ * @param   {integer}  int  The integer to remain unchanged
+ * @param   {integer}  len  The digit length to maintain
+ * @param   {integer}  dir  Side of integer to maintain digit length
+ * @return  {string}        Example: "1" -> "01" / "10".
  */
 const setDigits = ( int=0, len=1, dir=0 ) => {
 	return dir > 0 ? int.toString().padStart(len, "0") : int.toString().padEnd(len, "0");
@@ -95,8 +95,8 @@ const setDigits = ( int=0, len=1, dir=0 ) => {
 /**
  * Format
  * Maintains double digit format for time strings.
- * @param		{string}	time	[The time string.]
- * @return	{string}				[Formatted string (H:M:SS -> HH:MM:SS).]
+ * @param   {string}  time  [The time string.]
+ * @return  {string}				[Formatted string (H:M:SS -> HH:MM:SS).]
  */
 let getColonTime = ( times )=>{
 	return times.map( t => setDigits(t, 2, 1) ).join(":");
@@ -104,8 +104,8 @@ let getColonTime = ( times )=>{
 
 /**
  * Format colon timestamp
- * @param		{Date}	date	A date object
- * @return	{string}			Formatted string from date object representing current time (HH:MM:SS).
+ * @param   {Date}  date  A date object
+ * @return  {string}			Formatted string from date object representing current time (HH:MM:SS).
  */
 let toColonTime = ( date ) => {
 	let times = [ date.getHours(), date.getMinutes(), date.getSeconds() ];
@@ -124,9 +124,9 @@ let toColonTime12 = ( date ) => {
 
 /**
  * Stringify and transform integer to written number
- * @param		{integer}	int	Plain number
- * @return	{string}			Stringified int with commas
- *                        Example: 100000 -> "100,000"
+ * @param   {integer}  int  Plain number
+ * @return  {string}        Stringified int with commas
+ *                          Example: 100000 -> "100,000"
  */
 const getWrittenNumb = ( int ) => {
 	let number = int.toString();
@@ -147,8 +147,8 @@ const getWrittenNumb = ( int ) => {
 
 /**
  * Real Price Format
- * @param		{integer/float}	number	[A number to conver to a real price]
- * @return	{string}								[description]
+ * @param   {integer/float}  number  [A number to conver to a real price]
+ * @return  {string}                 [description]
  */
 const toWrittenPrice = ( number ) => { 
 	number = number.toString();
@@ -160,7 +160,7 @@ const toWrittenPrice = ( number ) => {
 /**
  * Type Into Element
  * Inserts text into an element letter by letter to imitate typing.
- * @param	{HTMLelement}	elementNode	Element to type string into
+ * @param  {HTMLelement}  elementNode	Element to type string into
  */
 String.prototype.typeInto = ( elementNode ) => {
 	let typedString = [];
