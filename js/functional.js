@@ -3,6 +3,35 @@
 ////////////////////////////////////////////////
 ////
 
+const logMessage = string => { console.log(string) }
+
+const logError = string => { throw Error(string) }
+
+const logTypeError = string => { throw TypeError(string) }
+
+const dataTypes = ["boolean", "null", "undefined", "string", "number", "object", "symbol"]
+
+const toValidDataType = string => string.toString().toLowerCase()
+
+const isValidDataType = type => { 
+	var types = ["boolean", "null", "undefined", "string", "number", "object", "symbol"]
+	
+	return types.filter(a => type === a).length > 0 ? true : false
+}
+
+const isDataType = ( data, type ) => {
+	typeof type === "string" ? null : logTypeError(`The data type of (${type}) parameter needs to be a string.`)
+
+	type = toValidDataType(type)
+	isValidDataType(type) ? null : logError(`Given parameter value ("${type}") does not match one of these ("${types.join("\", \"")}") valid data types.`)
+
+	return typeof data === type ? true : false
+}
+
+const checkType = ( data, type ) => {
+	isDataType(data, type) ? true : logTypeError(`${data} was expected to be a ${type} data type`)
+}
+
 function eventOn( element, event, func ){
 	if( element.length > 1 && typeof element.attributes == "undefined" ){
 		for( node of element ){
