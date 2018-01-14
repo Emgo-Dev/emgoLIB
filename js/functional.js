@@ -19,9 +19,7 @@ function eventOn( element, event, func ){
  * @param		{integer}		time	Delay between execution in milisecond
  * @return	{integer}					Interval ID. Cancel execution with window.clearInterval(return)
  */
-function interval( func, time ){
-	return window.setInterval( func, time )
-}
+const interval = ( func, time ) => window.setInterval( func, time )
 
 /**
  * Call function after specified time
@@ -29,9 +27,7 @@ function interval( func, time ){
  * @param		{integer}		time	Delay between executing @func in miliseconds
  * @return	{integer}					The ID for the time. Cancel time with window.clearTimeout(@return)
  */
-function delay( func, time ){
-	return window.setTimeout( func, time )
-}
+const delay = ( func, time ) => window.setTimeout( func, time )
 
 function propCount( property ) {
 	let s = 0;
