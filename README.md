@@ -4,6 +4,16 @@ This is my collection of currated an developed libraries. They're broken up amon
 
 I'm building this collection with native JavaScript to provide utility for the right circumstance. Libraries are broken down by language and function to minimize depdendency and bandwidth if only some functions are needed.
 
+## Terminology
+
+I am using certain terminology to remain consistent.
+
+**to...:** Transforms the subject **to** something else, but remains of the same type.
+
+**set...:** Updates or adds information to the subject.
+
+**get...:** Retrieves a new set of data from the subject.
+
 ## Problems
 
 If a library doesn't solve a problem it shouldn't exist. Here are the problems and solutions my libraries solve.
