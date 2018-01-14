@@ -54,6 +54,18 @@ function getIntBetween( a, b ){
 	return c;
 }
 
+/**
+ * https://github.com/Chalarangelo/30-seconds-of-code/pull/543/commits/3c69263268f988937ea7041b5441d29f373416fd
+ * @param  {integer} len Iteration count
+ * @param  {integer} min Lowest possible integer
+ * @param  {integer} max Highest possible integer
+ * @return {array}       A collection of all generated results
+ */
+const randomIntWithLengthInRange = (len, min, max) =>
+	Array.from({ length: len }, () =>
+		Math.floor(Math.random() * (max - min) + min)
+	);
+
 ////
 ////////        Area Formulai
 ////////////////////////////////////////////////
