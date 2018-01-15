@@ -1,4 +1,31 @@
 /**
+ * Return character of key-name
+ * Kind of like finding a needle in a needle-stack, as long as you know the needle you want and where it is.
+ * @param  {string} characterNeedle  Key-name of character to search for.
+ * @return {string}                  The character of key-name
+ */
+const getCharFor = charKey => {
+	let characters = []
+	const charCodeKeys = [
+		["cent", 162],
+		["copyright", 169],
+		["one-quarter", 188],
+		["one-fourth", 188],
+		["one-half", 189],
+		["three-quarters", 190],
+		["three-fourths", 190]
+	]
+	let requestedCharacter = charCodeKeys.find( a => charKey.toLowerCase() === a[0] )
+	
+	if( requestedCharacter ){
+		return String.fromCodePoint(requestedCharacter[1])
+	}
+	for( let a = 0; a < 1000000; a++ ){ characters.push(String.fromCodePoint(a)); }
+
+	return characters;
+}
+
+/**
  * Capitalize first letter of string
  * Distinguished from String.toUpperCase which capitalizes all characters.
  * @param   {string}  string	String of words. First character should not be alaphanumeric.
