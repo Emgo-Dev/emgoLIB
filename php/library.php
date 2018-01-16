@@ -277,12 +277,97 @@ function echo_html_select($attr_name=null, $option_list=null) {
     echo "</select>";
 }
 
-function makeHTML( $ElementNodeList ){
+function makeEle( $ElementCollection = null ){
+    // This function generates HTML from $ElementCollection, an array of associative arrays which represent parts of an element
+        /* Expected Structure
+            array(
+                array( // Each element is a collection
+                    Type: "NAV", // The elements tag name
+                    Attributes: array( // A collection of associative arrays
+                        array(
+                            Name: "id",
+                            Value: "NavigationMenu"
+                        )
+                    ),
+                    Text: null
+                )
+            )
+        */
+
+    // This function accepts an array of objects with properties representing an element node in the DOM
+    // Object properties should be
+    // Type - The type of element
+    // Attributes - An array of attribute objects in pairs of { Name,] Value,] }
+    // Text - The elements text node content
+    // Children - an array of children element objects
+
+    $elSingleTag = array("input", "hr");
+
+    // Collection of data
     $el = array();
+    $elEnds = array();
+    $elementString = "";
+    $elementCount = 0;
 
-    // Create Elements
-    foreach( $ElementNodeList as $item ){
+    // For Each object of collection
+        // Create Element
+    foreach( $ElementCollection as $Element ){
+        isset($Element["Type"]) && strlen($Element["Type"]) > 0 ? $hasType = TRUE : $hasType = FALSE;
+        isset($Element["Attributes"]) && count($Element["Attributes"]) > 0 ? $hasAttributes = TRUE : $hasAttributes = FALSE;
+        isset($Element["Text"]) && strlen($Element["Text"]) > 0 ? $hasText = TRUE : $hasText = FALSE;
+        isset($Element["Children"]) && count($Element["Children"]) > 0 ? $hasChildren = TRUE : $hasChildren = FALSE;
+
+        // Begin Element Tag
+            // Leave the closing bracket off to allow for adding attributes
+            // This is not necessary in JS beca\use of DOM API
+        array_push( $el, "<" . strtolower($Element["Type"]));
+
+        // Store End Element Tag
+            // Ignore if the element is a single tag element
+            // Keep track of all closing tags for concatenated elements
+            // Necessary in PHP because it lacks the DOM API. all elements are hard-written as strings
+            // Rather than searching the finished string for all created elements, just store their closing tags as created and cocnat in order to the final string.
+        if( !in_array( strtolower($Element["Type"]), $elSingleTag )){
+            array_push( $elEnds, "</" . strtolower($Element["Type"]) . ">" );
+        };
+
+        if( $hasAttributes ){
+            foreach( $Element["Attributes"] as $Attribute ){
+                $attributeCount = 0; // Current Index
+                $attributeSpacing = " "; // Controls space between attributes
+
+                // Add attributes
+                $el[$elementCount] = $el[$elementCount] . $attributeSpacing . $Attribute["Name"] . "=\"" . $Attribute["Value"] . "\"";
+            };
+        } // Finished Adding Attributes
+
+        // Close element opening tag
+        $el[$elementCount] = $el[$elementCount] . ">";
+
+        // Add text to element string
+        if( $hasText ){
+            $el[$elementCount] =  $el[$elementCount] . $Element["Text"];
+        }
+
+        // Manage Children
+        if( isset($Element["Children"]) && count($Element["Children"]) > 0 ){
+            $childElements = makeEle( $Element["Children"] );
+            $el[$elementCount] = $el[$elementCount] . $childElements;
+        }else{
+            // $el[$elementCount] = $el[$elementCount] . $elEnds[$elementCount];
+        }
+
+        // Add tag to string
+        $el[$elementCount] = $el[$elementCount] . $elEnds[$elementCount];
+
+        $elementCount += 1;
     }
-}
 
+    foreach( $el as $tag ){
+        $elementString = $elementString . $tag;
+    }
+
+    return $elementString;
+
+}
 ?>
