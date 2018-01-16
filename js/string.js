@@ -7,9 +7,7 @@
 const getCharFor = charKey => {
 	const charKeyHasDash = charKey.search("-") > -1 ? true : false
 	const charKeyWords = charKey.split("-")
-		console.log(`It is ${charKeyHasDash} that ${charKey} has dashes ('-') in it.`)
 	const charKeyWordCount = charKey.split("-").length
-	console.log(`${charKey} has ${charKeyWordCount} word quer${charKeyWordCount > 1 ? `ies` : `y` } in it.`)
 	const charCodeKeys = [
 		["cent", 162],
 		["copyright", 169],
@@ -65,67 +63,20 @@ const getCharFor = charKey => {
 		["outline-circle-number-9", 10110],
 		["outline-circle-number-10", 10122]
 	]
+	let charKeyRequest = charCodeKeys.filter( key => key[0].includes(charKey) )
 	let resultFromPoint = []
 	let filterIterationCount = 0
 	let filterExactKeyIndex = null
 
-	// Finds the first match
-	// let charKeyRequest = charCodeKeys.find( a => charKey.toLowerCase() === a[0] )
+	charKeyRequest.length === 1 ? resultFromPoint = String.fromCodePoint(charKeyRequest[0][1]) : null
 
-	// Finds all similar matches present in charCodeKeys[0]
-	// let charKeyRequest = charCodeKeys.filter( a => a[0].search(charKey.toLowerCase()) !== -1 )
-
-	// Finds all similar matches if presenst in charCodeKeys[0], or only exact match if found
-	let charKeyRequest = charCodeKeys.filter( key => {
-		filterIterationCount+=1;
-		let charCodeKeyWords = key[0].split("-")
-
-		// We want to check that each key word of the key collection matches the following conditions
-		
-		if( key[0].search("-") > -1 && charKey.search("-") > -1 ){ // Attempting perfect match w/ multiple words
-			let wordMatchCounter = 0;
-			console.log(`It is ${key[0].search("-") > -1 && charKey.search("-") > -1} that ${key[0]} and ${charKey} have '-'.`);
-
-			// for( let index = 0; index < charKeyWordCount; index++ ){
-			// 	charCodeKeyWords.includes(charKeyWords[index]) ? wordMatchCounter++ : null
-			// 	console.log(`It is ${charCodeKeyWords.includes(charKeyWords[index])} that ${key[0]} contains ${charKeyWords[index]} from ${charKey}`)
-			// }
-
-			if( charKeyWords.every( word => charCodeKeyWords.includes(word) ) ){
-				filterExactKeyIndex = filterIterationCount
-				console.log(`Found that ${charKey} perfectly matches ${charCodeKeys[filterExactKeyIndex]} from testing ${wordMatchCounter} words from ${charKey} match ${wordMatchCounter} out of ${charCodeKeyWords.length} words from current key ${key} which is ${charCodeKeys[filterExactKeyIndex]}.`)
-				
-				return true
-			}else{
-				console.log(`Found that ${charKey} is not a perfect match with ${charCodeKeys[filterExactKeyIndex]}`)
-				
-				return false
-			}
-		}else if( charCodeKeyWords.includes(charKey) ){ // Approximate match with single word
-			// Perfect match if key code contains a single word as well
-			key[0] === charKey ? filterExactKeyIndex = filterIterationCount : null
-		
-			return true
-		}else{
-			return false
-		}
-	} )
-
-	console.log(charKeyRequest)
-	
-	if( charKeyRequest && filterExactKeyIndex === null ){ // Guarantee that exact match wasn't found
-		for( key of charKeyRequest ){
-			resultFromPoint.push(String.fromCodePoint(key[1]))
-		}
-	}else if( filterExactKeyIndex !== null ){
-		resultFromPoint = String.fromCodePoint(charCodeKeys[filterExactKeyIndex][1])
-	}else{
+	if( charKeyRequest < 1 ){
 		for( let a = 0; a < 1000000; a++ ){ // Get arbitrary # of results from Sring.fromCodePoint, I don't know how many results there are, and overdrafting will return an error, so you can't find out just by looping until no more results.
 			resultFromPoint.push(String.fromCodePoint(a));
 		}
 	}
 
-	return resultFromPoint
+	return charKeyRequest.length > 1 ? charKeyRequest : resultFromPoint
 }
 
 /**
