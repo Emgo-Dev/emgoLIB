@@ -45,22 +45,18 @@ function domBreak() {
     echo "<br/>";
 }
 
-function formatDump( $varDump ){
+function echo( $string ){ echo $string; }
+
+function echoVar( $varDump ){
     echo "<pre>";
     var_dump($varDump);
     echo "</pre>";
 }
 
-function reportResults( $data ){
-    echo "<pre class=\"report\">";
-    echo var_dump($data);
-    echo "</pre>";
-}
-
-function validForm( $requestType ){
-    if( $_SERVER["REQUEST_METHOD"] === $requestType && $_POST["Submit"] === "Submit" ){
+function validForm(){
+    if( $_SERVER["REQUEST_METHOD"] === "POST" && $_POST["Submit"] === "Submit" ){
     }else{
-        die("Form Failed. Wrong Request type or Submit value.");
+        die("Form Failed. Request Method not 'POST' or form Submit value/attribute not 'Submit'.");
     }
 }
 
@@ -80,30 +76,33 @@ function isNone($value) {
  * ---------------------------------------------------------
  * Cleans a user's input from form fields for authentication
  */
-function validate( $a ){
-    if ( isset($a) ) {
-        if( gettype($a) === "string" ){
-            $a = trim($a);              // Removes leading/trailing whitespace
-            $a = stripslashes($a);      // Removes slashes
-            $a = strip_tags($a);        // Removes HTML Tags, list allowed tags in second argument
-            $a = htmlspecialchars($a);  // Converts special charactek to equivalent HTML entity
-            // $text = str_replace("\n.", "\n..", $text);
-            return $a;
-        }elseif( gettype($a) === "double" ){
-            return $a;
-        }else{}
-    } else {
-        return false;
-    }
-};
+function valString( $str ){
+    gettype($str) !== "string" ? die("Data type of parameter given to valString() was not a 'string'.");
+    $a = trim($a);              // Removes leading/trailing whitespace
+    $a = stripslashes($a);      // Removes slashes
+    $a = strip_tags($a);        // Removes HTML Tags, list allowed tags in second argument
+    $a = htmlspecialchars($a);  // Converts special charactek to equivalent HTML entity
 
-function validNone( $value ){
-    return $value == "None" || $value == "" || !isset($value) ? NULL : $value;
-    // if ($value == "None" || $value == "" || !isset($value)) {
-    //     return NULL;
-    // } else {
-    //     return $value;
-    // }
+    return $a;
+}
+
+function valInt( $int ){
+    gettype($int) !== "number" ? die("Data type of parameter given to valInt() was not a 'number'.");
+}
+
+function valFloat( $float ){
+    return round($float, 2);
+}
+
+function valNone( $str ){
+    return strtolower($str) === "none" || $str === "" || !isset($str) ? NULL : $str;
+}
+
+function valDate( $date ){
+    return gettype($date) === "string" ?
+        count(explode("-", $date)) === 3 && strlen(implode("", explode("-", $date))) === 8 ? $date :
+        die("Incorrect date format of parameter.\nBad Result: ".count(explode("-", $date))." ".strlen(implode("", explode("-", $date)))) :
+    die("Incorrect data type of paramter. Bad Result: ".gettype($date));
 }
 
 function validDate( $date ){
