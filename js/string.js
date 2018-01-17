@@ -1,8 +1,8 @@
 /**
- * Return character of key-name
+ * Return character of key/pair w/ String.fromCodePoint()
  * Kind of like finding a needle in a needle-stack, as long as you know the needle you want and where it is.
- * @param  {string} characterNeedle  Key-name of character to search for.
- * @return {string}                  The character of key-name
+ * @param   {string}  charKey  Key name for character code. 
+ * @return  {string}           If charKey is exact match with key in charCodeKeys, returns a single character, otherwise uses Array.filter() & Array.includes() to find similar keys returning array of characters
  */
 const getCharFor = charKey => {
 	const charKeyHasDash = charKey.search("-") > -1 ? true : false
