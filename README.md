@@ -24,7 +24,6 @@ If a library doesn't solve a problem it shouldn't exist. Here are the problems a
 - [setInterval: Do this Every X](#setinterval:-do-this-every-x)
 - [setTimeout: Do this After X](#settimeout:-do-this-after-x)
 
-
 ### Query Selector: Targeting Elements
 
 When the browser loads a webpage the HTML markup used to create a node tree known as the DOM (Document Object Model). Two APIs are provided for JS to interact with when interacting with the loaded webpage and browser: document, window. These objects allow JS to interact with the webpage in various ways using their methods.
@@ -69,4 +68,15 @@ The same problems exist for the timeout method.
 
 ```
 let NewYearShout! = delay( ()=>{ console.log("Happy New Year!") }, 10);
+```
+
+### getCharFor(): Get string characters/symbols
+
+Ever wanted to use a specific symbol or character that isn't bound to a key on your keyboard? It's tough having to remember their code or key combination, whatever way you want to invoct that character. But there are ultimately physical limits to access the vast number of symbols around the world.
+
+You can get a character as a string from the String.fromCodePoint(), but you need to use a specific integer, and characters are not really in any order.
+
+```js
+getCharFor("heart")
+// "❤"
 ```
