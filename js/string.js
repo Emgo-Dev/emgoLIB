@@ -4,69 +4,14 @@
  * @param   {string}  charKey  Key name for character code. 
  * @return  {string}           If charKey is exact match with key in charCodeKeys, returns a single character, otherwise uses Array.filter() & Array.includes() to find similar keys returning array of characters
  */
-const getCharFor = charKey => {
+const getCharFor = ( charKey="" ) => {
 	const charKeyHasDash = charKey.search("-") > -1 ? true : false
 	const charKeyWords = charKey.split("-")
 	const charKeyWordCount = charKey.split("-").length
-	const charCodeKeys = [
-		["cent", 162],
-		["copyright", 169],
-		["one-quarter", 188],
-		["one-fourth", 188],
-		["one-half", 189],
-		["three-quarters", 190],
-		["three-fourths", 190],
-		["heart", 10084],
-		["heart-horizontal", 10085],
-		["single-curly-quote-left", 10075],
-		["single-curly-quote-right", 10076],
-		["double-curly-quote-left", 10077],
-		["double-curly-quote-right", 10078],
-		["large-single-curly-quote", 10079],
-		["large-single-curly-quote", 10080],
-		["x", 10060],
-		["large-x", 10006],
-		["slanted-x", 10007],
-		["large-slanted-x", 10008],
-		["cross-solid", 10013],
-		["cross-outline", 10014],
-		["check-mark", 10003],
-		["large-check-mark", 10004],
-		["bubble-number-1", 10102],
-		["bubble-number-2", 10103],
-		["bubble-number-3", 10104],
-		["bubble-number-4", 10105],
-		["bubble-number-5", 10106],
-		["bubble-number-6", 10107],
-		["bubble-number-7", 10108],
-		["bubble-number-8", 10109],
-		["bubble-number-9", 10110],
-		["bubble-number-10", 10111],
-		["circle-number-1", 10102],
-		["circle-number-2", 10103],
-		["circle-number-3", 10104],
-		["circle-number-4", 10105],
-		["circle-number-5", 10106],
-		["circle-number-6", 10107],
-		["circle-number-7", 10108],
-		["circle-number-8", 10109],
-		["circle-number-9", 10110],
-		["circle-number-10", 10111],
-		["outline-circle-number-1", 10112],
-		["outline-circle-number-2", 10113],
-		["outline-circle-number-3", 10114],
-		["outline-circle-number-4", 10115],
-		["outline-circle-number-5", 10116],
-		["outline-circle-number-6", 10117],
-		["outline-circle-number-7", 10118],
-		["outline-circle-number-8", 10119],
-		["outline-circle-number-9", 10110],
-		["outline-circle-number-10", 10122]
-	]
-	let charKeyRequest = charCodeKeys.filter( key => key[0].includes(charKey) )
 	let resultFromPoint = []
 	let filterIterationCount = 0
 	let filterExactKeyIndex = null
+	let charKeyRequest = getCharFor.charCodeKeys.filter( key => charKeyWordCount > 1 ? key[0].includes(charKey) && key[0] === charKey : key[0] === charKey ? true : false )
 
 	charKeyRequest.length === 1 ? resultFromPoint = String.fromCodePoint(charKeyRequest[0][1]) : null
 
@@ -79,6 +24,62 @@ const getCharFor = charKey => {
 	return charKeyRequest.length > 1 ? charKeyRequest : resultFromPoint
 }
 
+getCharFor.charCodeKeys = [
+	["cent", 162],
+	["copyright", 169],
+	["one-quarter", 188],
+	["one-fourth", 188],
+	["one-half", 189],
+	["three-quarters", 190],
+	["three-fourths", 190],
+	["heart", 10084],
+	["heart-horizontal", 10085],
+	["single-curly-quote-left", 10075],
+	["single-curly-quote-right", 10076],
+	["double-curly-quote-left", 10077],
+	["double-curly-quote-right", 10078],
+	["large-single-curly-quote", 10079],
+	["large-double-curly-quote", 10080],
+	["x", 10060],
+	["large-x", 10006],
+	["slanted-x", 10007],
+	["large-slanted-x", 10008],
+	["cross-solid", 10013],
+	["cross-outline", 10014],
+	["check-mark", 10003],
+	["large-check-mark", 10004],
+	["bubble-number-1", 10102],
+	["bubble-number-2", 10103],
+	["bubble-number-3", 10104],
+	["bubble-number-4", 10105],
+	["bubble-number-5", 10106],
+	["bubble-number-6", 10107],
+	["bubble-number-7", 10108],
+	["bubble-number-8", 10109],
+	["bubble-number-9", 10110],
+	["bubble-number-10", 10111],
+	["circle-number-1", 10102],
+	["circle-number-2", 10103],
+	["circle-number-3", 10104],
+	["circle-number-4", 10105],
+	["circle-number-5", 10106],
+	["circle-number-6", 10107],
+	["circle-number-7", 10108],
+	["circle-number-8", 10109],
+	["circle-number-9", 10110],
+	["circle-number-10", 10111],
+	["outline-circle-number-1", 10112],
+	["outline-circle-number-2", 10113],
+	["outline-circle-number-3", 10114],
+	["outline-circle-number-4", 10115],
+	["outline-circle-number-5", 10116],
+	["outline-circle-number-6", 10117],
+	["outline-circle-number-7", 10118],
+	["outline-circle-number-8", 10119],
+	["outline-circle-number-9", 10110],
+	["outline-circle-number-10", 10122]
+]
+
 /**
  * Capitalize first letter of string
  * Distinguished from String.toUpperCase which capitalizes all characters.
@@ -86,7 +87,7 @@ const getCharFor = charKey => {
  * @return  {string}  String with first character capitalized.
  *                    Example: "hello" -> "Hello"
  */
-const toCapital = (string, lowerRest=0) => {
+const toCapital = ( string, lowerRest=0 ) => {
 	isDataType(string, "string") ? null : logError(`toCapital() requires ${string} data type be a string.`)
 
 	return string.slice(0, 1).toUpperCase().concat((lowerRest === 1 ? string.slice(1).toLowerCase() : string.slice(1)))
