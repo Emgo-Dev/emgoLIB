@@ -4,6 +4,10 @@
 
 Where there is no context for the expected parameter, name it the expected data type, either full or of a common abbreviation.
 
+### Use 'this' in prototypes
+
+When prototyping a method, if you want to use the 'this' keyword you must invoke a function with `function(){}` and not the arrow syntax `() => {}`. The arrow syntax will not transfer 'this' into the function.
+
 ### Abbreviations
 
 >string -> str, s
