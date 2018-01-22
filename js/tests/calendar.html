@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en-GB">
+    <meta charset="utf-8"/>
+    <title>Site Title</title>
+    <meta name="description" content="Site Description"/>
+    <meta name="keywords" content="keyword1, keyword2"/>
+
+    <!-- Vendor Stylesheets -->
+
+    <!-- User Stylesheets -->
+
+    <!-- Page Stylesheets -->
+
+    <!-- Page Scripts -->
+</head>
+<body>
+
+<script type="text/javascript" src="../library.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+    let calendar = new Calendar();
+    let results = "Months: ";
+    
+    calendar.getMonths().forEach( (x,y,z) => {
+        results = results.concat(x+(y < z.length-1 ? ", " : ""));
+    })
+
+    results = results.concat(`\nJanuary / ${calendar.getMonth(0)}\nJanuary is Month / ${calendar.isMonth("January")}\nJan / ${calendar.getMonthShort(0)}\nJan -> January / ${calendar.toFullMonth("Jan")}\nJanuary -> Jan / ${calendar.toShortMonth("January")}`)
+
+    document.body.innerHTML = `<p>Expected Results</p><pre>${results}</pre>`
+}
+
+</script>
+</body>
+</html>
