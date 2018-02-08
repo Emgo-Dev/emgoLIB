@@ -164,7 +164,7 @@ let getColonTime = times => {
 /**
  * Format colon timestamp
  * @param   {Date}  date  A date object
- * @return  {string}			Formatted string from date object representing current time (HH:MM:SS).
+ * @return  {string}  Formatted string from date object representing current time (HH:MM:SS).
  */
 let toColonTime = ( date, hour12=0 ) => {
 	let times = [ (hour12 ? date.getHours() : to12Hour(date.getHours())), date.getMinutes(), date.getSeconds() ];
@@ -207,6 +207,15 @@ const toWrittenPrice = ( int, useSymbol=0 ) => {
 
 	return prefix.concat(toWrittenNumb(parseInt(parts[0]))).concat(".").concat(setDigits(parts[1], 2))
 }
+
+const getIsoDate = isoString => isoString.match(/\w{4}-\w{2}-\w{2}/)[0]
+const getIsoYear = isoString => isoString.match(/^\w{4}/)[0]
+const getIsoMonth = isoString => isoString.match(/\w{2}(?=-\w{2}T)/)[0]
+const getIsoDay = isoString => isoString.match(/\w{2}(?=T)/)[0]
+const getIsoTime = isoString => isoString.match(/\w{2}:\w{2}:\w{2}/)[0]
+const getIsoHour = isoString => isoString.match(/\w{2}(?=:)/)[0]
+const getIsoMinute = isoString => isoString.match(/\w{2}(?=:\w{2}\.)/)[0]
+const getIsoSecond = isoString => isoString.match(/\w{2}(?=\.)/)[0]
 
 /**
  * Type Into Element
