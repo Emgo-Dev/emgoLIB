@@ -14,60 +14,60 @@
 ///                                                   ///
 /////////////////////////////////////////////////////////
 
-class emgoSQL {
+class SQL {
 
-        // Store credentials
-        private $creds       =  array(
-                                        "Host"=>null,
-                                        "User"=>null,
-                                        "Pass"=>null,
-                                        "Name"=>null
-                                );
-        public $link         =  null;     // (object) mysqli object
-        public $status       =  null;     // (bool) connection status
-        public $stm          =  null;     // (string) mysql query
-        public $rst          =  array();  // (object) result object
-        public $affected     =  0;        // (integer)
+    function __construct( $host, $user, $pass, $database, $ignoreError = false ){
+        $this->link      =  null;     // mysqli object
+        $this->status    =  nulL;     // connection status
+        $this->stm       =  array();  // query statements
+        $this->rst       =  array();  // result object
+        $this->affected  =  0;
         
-        // Open new connection object in $link
-        // Give credentials, otherwise defaults $creds above
-        function open($creds=null) {
-            if( isset($creds[0]) && isset($creds[1]) && isset($creds[2]) && isset($creds[3]) ) {
-                $this->creds["Host"] = $creds[0];
-                $this->creds["User"] = $creds[1];
-                $this->creds["Pass"] = $creds[2];
-                $this->creds["Name"] = $creds[3];
+        $this->open( $host, $user, $pass, $database );
+    }
 
-                $this->link = new mysqli($creds[0], $creds[1], $creds[2], $creds[3]);
-            } else {
-                $this->link = new mysqli($this->creds["Host"], $this->creds["User"], $this->creds["Pass"], $this->creds["Name"]);
-            }
+    /**
+     * Create and store connection to MySQL database
+     *
+     * @param  <type>  $creds  Credentials for database connection
+     */
+    private function open( $host = null, $user = null, $pass = null, $database = null ){
+        $this->link = new mysqli( $host, $user, $pass, $database );
 
-            if ($this->link->connect_error) {
-                die('Conection Error('.$this->link->connect_errno.') '.$this->link->connect_error);
-            }
-        }
-        
-        // Close existing connection
-        function close() { $this->affected -= $this->affected; $this->link->close(); }
+        $this->link->connect_error ? die('Conection Error('.$this->link->connect_errno.') '.$this->link->connect_error) : null;
+    }
 
-        // Store a statement in $stm
-        function load($string) { $this->stm = $string; }
-        // function prepare() { isset($this->stm) ? $this->stm_prepared = $this->link->prepare($this->stm) : null; }
+    /**
+     * Closes existing connection to MySQL database
+     */
+    function close() { $this->affected -= $this->affected; $this->link->close(); }
 
-        // Send a query
-        function send($string, $rstTag = null) { 
-            isset($rstTag) ? $this->rst[$rstTag] = $this->link->query($string) : $this->rst = $this->link->query($string);
-            $this->affected += $this->link->affected_rows;
-        }
+    // function prepare() { isset($this->stm) ? $this->stm_prepared = $this->link->prepare($this->stm) : null; }
+
+    // Send a query
+    function send( $string, $rstTag = null ) { 
+        isset($rstTag) ? $this->rst[$rstTag] = $this->link->query($string) : $this->rst = $this->link->query($string);
         
-        // Send a query expecting no return result
-        function insert($string) { $this->send($string); }
-        
-        // Format result objects
-        function rstRow($result, $type) { return $result->fetch_array($type); }
-        function rstAll($result, $type) { return $result->fetch_all($type); }
-        
+        $this->affected += $this->link->affected_rows;
+    }
+
+    function change( $database ){
+        $this->link->select_db($database);
+    }
+
+    function select( $fields = null, $table = null, $condition = null, $format = null, $rstHandling = MYSQLI_STORE_RESULT ){ 
+
+        return $this->link->query("SELECT $fields FROM $table WHERE $condition $format;", $rstHandling);
+    }
+
+    function insert( $fields = null, $table = null, $values = null ){
+        $this->link->query("INSERT $fields INTO $table VALUES ($values);");
+    }
+    
+    // Format result objects
+    // MYSQLI_NUM or MYSQLI_ASSOC
+    function rstRow( $result, $type = MYSQLI_NUM ){ return $result->fetch_array($type); }
+    function rstAll( $result, $type = MYSQLI_NUM ){ return $result->fetch_all($type); }        
 }
 
 ?>

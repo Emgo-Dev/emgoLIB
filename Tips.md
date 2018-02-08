@@ -44,3 +44,11 @@ class Person {
     }
 }
 ```
+
+### MySQL Result Object: While vs Foreach
+
+When querying results in a page header to be displayed, you can choose to fetch the results all at once and use a foreach loop through the array of rows or fetch each row at a time with a while loop having the mysqli move the pointer forward after each loop.
+
+It is only necessary to refrain from fetching results all at once in the page header when you need the result field information as you can while loop through requested fields with a while loop as well as the rows.
+
+You could instead fetch the field info in the page header - stored separately - and then fetch the rows as normal and use foreach for both.
