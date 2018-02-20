@@ -76,3 +76,5 @@ const buildProperties = ( values, keys ) => {
 
 	return o;
 }
+
+const countProperties = ( obj ) => { return Object.keys(obj).length; }
