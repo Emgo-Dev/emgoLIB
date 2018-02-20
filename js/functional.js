@@ -58,17 +58,21 @@ const interval = ( func, time ) => window.setInterval( func, time )
  */
 const delay = ( func, time ) => window.setTimeout( func, time )
 
-function propCount( property ) {
-	let s = 0;
-	let result =  {
-		list: [],
-		count() { return this.list.length; }
-	};
+const buildProperties = ( values, keys ) => {
+	let x = 0;
+	let i = 0;
+	let o = {};
 
-	for( let p in prop ){
-		result.list[s] = p;
-		s += 1;
+	for( let val of values ){
+		if( !keys[i] ){
+			o[x] = val;
+			x += 1;
+		}else{
+			o[keys[i]] = val;
+		}
+
+		i += 1;
 	}
 
-	return result;
+	return o;
 }
