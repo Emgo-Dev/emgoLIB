@@ -1,5 +1,8 @@
 <?php
 
+class HTMLi {
+}
+
 function echo_html_select($attr_name=null, $option_list=null) {
     $attr_name = "name=".$attr_name;
     if( isset($option_list) && count($option_list) > 0 ) { $option_list = $option_list; }

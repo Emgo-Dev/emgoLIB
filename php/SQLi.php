@@ -1,20 +1,6 @@
 <?php
 
-/////////////////////////////////////////////////////////
-///                                                   ///
-///                 Emgo SQL Library                  ///
-///                Michael Goldspinner                ///
-///                 Emgo Development                  ///
-///                    05/29/2017                     ///
-///                                                   ///
-///  ***********************************************  ///
-///                                                   ///
-///  Custom SQL class for managing interaction        ///
-///  with databases in PHP via mysqli.                ///
-///                                                   ///
-/////////////////////////////////////////////////////////
-
-class SQL {
+class SQLi {
 
     function __construct( $host, $user, $pass, $database, $ignoreError = false ){
         $this->link      =  null;     // mysqli object
