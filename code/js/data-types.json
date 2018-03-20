@@ -1,0 +1,10 @@
+{
+	"0": "undefined",
+	"1": "null",
+	"2": "string",
+	"3": "number",
+	"4": "boolean",
+	"5": "array",
+	"6": "object",
+	"7": "symbol"
+}

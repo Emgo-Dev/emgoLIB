@@ -1,38 +1,19 @@
-class Clock {
-	
-	constructor(){ // Constructs parameters for units of time per day
-		this.milisecondsPerDay = 86400000;
-		this.secondsPerDay = 86400;
-		this.minutesPerDay = 1440;
-		this.hoursPerDay = 24;
-	}
-
-	/**
-	 * Returns Date of current timestamp
-	 *
-	 * @return  {object}  Date from current timestamp.
-	 */
-	getNow(){ return new Date() }
-
-	/**
-	 * Returns Date of current date at 00:00:00 timestamp
-	 *
-	 * @return  {object}  Date from current timestamp.
-	 */
-	getToday(){ return new Date(this.getNow().toISOString().match(/^\w{4}-\w{2}-\w{2}/)[0].concat(" 00:00:00Z")) }
-
-	getMiliseconds(){ return this.milisecondsPerDay; }
-
-	getSeconds(){ return this.getMiliseconds() / 1000; }
-
-	getMinutes(){ return this.getSeconds() / 60; }
-
-	getHours(){ return this.getMinutes() / 60; }
-}
-
 class Calendar {
+	// https://www.timeanddate.com/
 
 	constructor(){
+		// https://www.timeanddate.com/calendar/jewish-calendar.html
+		this.jewishMonths = ["Nisan", "Iyar", "Sivan", "Tammuz", "Av", "Alul", "Tishrei", "Marcheshvan", "Kislev", "Tevet", "Shevat", "Adar"]
+		this.jewishMonths = ["30", "29", "30", "29", "30", "29", "30", "29", "30", "29", "30", "30"]
+		// https://www.timeanddate.com/calendar/roman-calendar.html
+		this.romanMonths = ["Martius", "Aprilis", "Maius", "Iunius", "Quintilis", "Sextilis", "September", "Sextilis", "October", "November", "December"]
+		this.romanMonths = [31, 30, 31, 30, 31, 30, 30, 31, 30, 30]
+		// https://www.timeanddate.com/calendar/julian-calendar.html
+
+		// https://www.timeanddate.com/calendar/gregorian-calendar.html
+		// https://www.timeanddate.com/calendar/months/
+		// https://www.timeanddate.com/calendar/days/
+		this.oldMonths = ["January", "February", "March", "April", "May", "June", "Quintilis", "Sextilis", "September", "October", "November", "December"]
 		this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		this.days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 		this.holidays = [
@@ -149,3 +130,5 @@ class Calendar {
 		return monthName.slice(0, 3);
 	}
 }
+
+module.exports = new Calendar();

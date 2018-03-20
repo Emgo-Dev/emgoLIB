@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en-GB">
+	<meta charset="utf-8"/>
+	<title>Site Title</title>
+	<meta name="description" content="Site Description"/>
+	<meta name="keywords" content="keyword1, keyword2"/>
+
+	<!-- Vendor Stylesheets -->
+
+	<!-- User Stylesheets -->
+
+	<!-- Page Stylesheets -->
+
+	<!-- Page Scripts -->
+	<style type="text/css">
+		ul {
+			padding: 0em;
+		}
+
+		.label {
+			display: inline-block;
+			background-color: #ccc;
+			font-family: sans-serif;
+			font-size: 0.65em;
+			color: #666;
+			padding: 0.55em;
+			margin: 0.25em;
+		}
+	</style>
+</head>
+<body>
+
+	<main>
+		<h1 id="jsWarning">JavaScript must be enabled to view this page.</h1>
+		<ul id="keyNames"></ul>
+		<p id="resultArea"></p>
+	</main>
+
+<script type="text/javascript" src="../string.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	let results = "";
+	let keyNames = Object.entries(getCharFor.charCodeKeys);
+	let eleWarning = document.querySelector("#jsWarning");
+	let eleKeyNames = document.querySelector("#keyNames");
+	let eleResultArea = document.querySelector("#resultArea");
+
+	document.querySelector("#jsWarning").remove();
+
+	getCharFor.charCodeKeys.forEach((x,y,z) => {
+		results = results.concat(`${x[0]} / ${String.fromCodePoint(x[1])} / ${ getCharFor(x[0]) === String.fromCodePoint(x[1]) ? "Pass" : "Fail" }\n`);
+	})
+
+	keyNames.forEach( (x, y, z) => {
+		let ele = document.createElement("SPAN");
+		ele.setAttribute("data-id", x[0]);
+		ele.setAttribute("class", "label");
+		ele.innerText = x[1];
+		eleKeyNames.append(ele);
+	})
+
+	eleResultArea.innerHTML = `Expected Results<pre>${results}</pre>`
+	// document.body.innerHTML = getCharFor("heart") === "❤" ? "true" : "false"
+	console.log("Finished")
+}
+</script>
+</body>
+</html>

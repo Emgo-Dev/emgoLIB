@@ -1,18 +1,30 @@
-# emgoLIB: Currated Library Collection
+# Introduction
 
-This is my collection of currated an developed libraries. They're broken up among language and function.
+Developers, Welcome! This is my personal library of tools for development focusing on a dependency-less environment built on the original web languages. Also included are cheatsheets, documentation, and general notes useful as a reference in Markdown Files under docs/.
 
-I'm building this collection with native JavaScript to provide utility for the right circumstance. Libraries are broken down by language and function to minimize depdendency and bandwidth if only some functions are needed.
+## Naming Things
 
-## Terminology
+Function names use a camelCase naming convention. Where classes or interfaces occur, The interface is PascalCase, and the filename is the interface name.
 
-I am using certain terminology to remain consistent.
+### Suffix Terminology
+
+The following suffix patterns are used in function names to indicate the functions overall purpose.
 
 **to...:** Transforms the subject **to** something else, but remains of the same type.
 
 **set...:** Updates or adds information to the subject.
 
-**get...:** Retrieves a new set of data from the subject.
+**get...:** Returns a new set of data from the subject.
+
+#### Examples
+
+```js
+toOrdinal("25"); // "25th"
+```
+
+```js
+getColonTime(new Date()); // 08:30:00
+```
 
 ## Problems
 
@@ -20,45 +32,46 @@ If a library doesn't solve a problem it shouldn't exist. Here are the problems a
 
 - [Query Selector: Targeting Elements](#query-selector:-targeting-elements)
 - [Ordinals: 1st, 2nd, 3rd...](#ordinals:-1st,-2nd,-3rd...)
-- [Meridiem: Morning or Afternoon?](#meridiem:-morning-or-afternoon)
+- [Meridiem: Morning or Evening?](#meridiem:-morning-or-afternoon)
 - [setInterval: Do this Every X](#setinterval:-do-this-every-x)
 - [setTimeout: Do this After X](#settimeout:-do-this-after-x)
 
 ### Query Selector: Targeting Elements
 
-When the browser loads a webpage the HTML markup used to create a node tree known as the DOM (Document Object Model). Two APIs are provided for JS to interact with when interacting with the loaded webpage and browser: document, window. These objects allow JS to interact with the webpage in various ways using their methods.
+The browser creates a node tree (DOM) when it renders a markup file (HTML). JavaScript can used rendered HTML Element Nodes after the page is loaded with `document`'s two methods `querySelector()` & `querySelectorAll()`. They can be frustrating to use in larger projects, so many have built solutions. Here is mine.
 
-Still targeting elements repeatedly is tiresome. The solution to this is found under js/DOM.js. The solution is a method that combines `document`'s two methods `querySelector` & `querySelectorAll` to return a single element, or if more a collection.
+The function uses `document.querySelectorAll()` if the target element results contains more than one value in the `NodeList`. Otherwise it will use `document.querySelector()`. The returned values are from those original methods, so expect `HTMLElementPrototype` (inherited prototype of any specific HTML Element class being queried) or `NodeList` (an array-like collection of HTML element prototypes).
 
-The returned values are from those original methods, so expect either a node or a nodeList.
-
-```
+```js
 let element = DOM.ele("cssSelector");
 ```
 
 ### Ordinals: 1st, 2nd, 3rd...
 
-These ordinal suffixes occur in a particular pattern in the English language. This function will take in a number and add the approprate ordinal to it.
+Hey, remember what an ordinal is? In particular, it's an ordered thing. However in language we add an ordinal suffix to a number to represent how we pronounce its word. These ordinal suffixes occur in a particular pattern in the English language. This function will take in a number and add the appropriate ordinal suffix to it.
 
-```
+```js
 toOrdinal(25); // returns "25th"
+toOrdinal("25"); // returns "25th"
 ```
 
-[30-seconds-of-code](https://github.com/Chalarangelo/30-seconds-of-code/pull/71/files)
+PR accepted by [30-seconds-of-code](https://github.com/Chalarangelo/30-seconds-of-code/pull/71/files)
 
 ### Meridiem: Morning or Afternoon?
 
 JavaScripts Date object doesn't provide AM or PM without calling the entire date. You get can the current hour as an integer, so this function determines the meridiem from the 24 hour int returned.
 
-```
+```js
 toMeridiem(14); // returns "2pm"
 ```
+
+PR Accepted By: [30-seconds-of-code](https://github.com/Chalarangelo/30-seconds-of-code/pull/536/files)
 
 ### setInterval: Do this every X
 
 Having code that loops can be really great, and this API has a lot of uses, but writing it out can be frustrating. This function brings it all together and returns the ID for the loop which you can use to cancel it.
 
-```
+```js
 let currentTime = interval( ()=>{ console.log(new Date()) }, 1);
 ```
 
@@ -66,7 +79,7 @@ let currentTime = interval( ()=>{ console.log(new Date()) }, 1);
 
 The same problems exist for the timeout method.
 
-```
+```js
 let NewYearShout! = delay( ()=>{ console.log("Happy New Year!") }, 10);
 ```
 
@@ -80,3 +93,14 @@ You can get a character as a string from the String.fromCodePoint(), but you nee
 getCharFor("heart")
 // "❤"
 ```
+
+### getColonTime(): Accurate Digital Clock Format
+
+Did you know that all date & time information is kept in JavaScripts `Date`? Unfortunately there is very poor support for formatting this information as found in other languages (I love PHPs date()). With this function you can extract the full time representation as a digital clock format, maintaining the digit placeholders, from a `Date` given as a parameter.
+
+```js
+getColonTime(new Date()); // 08:30:00
+```
+
+
+PR accepted by [30-seconds-of-code](https://github.com/Chalarangelo/30-seconds-of-code/pull/536/files) and discussed in [issue #538](https://github.com/Chalarangelo/30-seconds-of-code/issues/538)
