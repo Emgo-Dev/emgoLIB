@@ -1,0 +1,14 @@
+[
+  { "monthName": "January", "daysOf": 31 },
+  { "monthName": "February", "daysOf": 28 },
+  { "monthName": "March", "daysOf": 31 },
+  { "monthName": "April", "daysOf": 30 },
+  { "monthName": "May", "daysOf": 31 },
+  { "monthName": "June", "daysOf": 30 },
+  { "monthName": "Quintilis", "daysOf": 31 },
+  { "monthName": "Sextilis", "daysOf": 31 },
+  { "monthName": "September", "daysOf": 30 },
+  { "monthName": "October", "daysOf": 31 },
+  { "monthName": "November", "daysOf": 30 },
+  { "monthName": "December", "daysOf": 31 }
+]

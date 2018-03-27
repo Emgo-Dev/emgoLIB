@@ -1,0 +1,6 @@
+{
+  "Thanksgiving Day": { "month": 10, "date": 23 },
+  "Christmas Eve": { "month": 11, "date": 25 },
+  "Christmas Day": { "month": 11, "date": 25 },
+  "New Years Eve": { "month": 11, "date": 31 }
+}
