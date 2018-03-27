@@ -2,49 +2,86 @@
 .FLX,
 .FLX-FR,
 .FLX-FC {
-    display: flex;
-        flex: auto 0 0;
-        flex-flow: row;
-        justify-content: flex-start;
-        align-content: flex-start;
-        align-items: flex-start;
-}
+  display: flex;
+  flex: auto 0 0;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start; }
 
 /* Flex Flow Row */
-.FLX-FR { flex-flow: row wrap; }
+.FLX-FR {
+  flex-flow: row wrap; }
 
 /* Flex Flow Column */
-.FLX-FC { flex-flow: column;   }
+.FLX-FC {
+  flex-flow: column; }
 
 /* Flex Position */
 /* X */
-.FLX-FC.FLX-PoXS { align-items: flex-start; }
-.FLX-FC.FLX-PoXC, .FLX-C { align-items: center; }
-.FLX-FC.FLX-PoXE { align-items: flex-end; }
+.FLX-FC.FLX-PoXS {
+  align-items: flex-start; }
 
-.FLX-FR.FLX-PoXS { justify-content: flex-start; }
-.FLX-FR.FLX-PoXC, .FLX-C { justify-content: center; }
-.FLX-FR.FLX-PoXE { justify-content: flex-end; }
+.FLX-FC.FLX-PoXC, .FLX-C {
+  align-items: center; }
+
+.FLX-FC.FLX-PoXE {
+  align-items: flex-end; }
+
+.FLX-FR.FLX-PoXS {
+  justify-content: flex-start; }
+
+.FLX-FR.FLX-PoXC, .FLX-C {
+  justify-content: center; }
+
+.FLX-FR.FLX-PoXE {
+  justify-content: flex-end; }
 
 /* Y */
-.FLX-FC.FLX-PoYS { justify-content: flex-start; }
-.FLX-FC.FLX-PoYC, .FLX-C { justify-content: center; }
-.FLX-FC.FLX-PoYE { justify-content: flex-end; }
+.FLX-FC.FLX-PoYS {
+  justify-content: flex-start; }
 
-.FLX-FR.FLX-PoYS { align-content: flex-start; }
-.FLX-FR.FLX-PoYC, .FLX-C { align-content: center; }
-.FLX-FR.FLX-PoYE { align-content: flex-end; }
+.FLX-FC.FLX-PoYC, .FLX-C {
+  justify-content: center; }
+
+.FLX-FC.FLX-PoYE {
+  justify-content: flex-end; }
+
+.FLX-FR.FLX-PoYS {
+  align-content: flex-start; }
+
+.FLX-FR.FLX-PoYC, .FLX-C {
+  align-content: center; }
+
+.FLX-FR.FLX-PoYE {
+  align-content: flex-end; }
 
 /* Flex Sizes */
 .FLX-SiA,
 .FLX-SiSh,
-.FLX-SiGr { flex: auto 1 1; }
-.FLX-SiSh { flex-grow: 0; }
-.FLX-SiGr { flex-shrink: 0; }
-.FLX-SiF { flex: 100% 1 1; }
-.FLX-SiH { flex: 40% 1 1; }
+.FLX-SiGr {
+  flex: auto 1 1; }
+
+.FLX-SiSh {
+  flex-grow: 0; }
+
+.FLX-SiGr {
+  flex-shrink: 0; }
+
+.FLX-SiF {
+  flex: 100% 1 1; }
+
+.FLX-SiH {
+  flex: 40% 1 1; }
 
 /* Flex Space */
-.FLX-SpE { justify-content: space-evenly; }
-.FLX-SpB { justify-content: space-between; }
-.FLX-SpA { justify-content: space-around; }
+.FLX-SpE {
+  justify-content: space-evenly; }
+
+.FLX-SpB {
+  justify-content: space-between; }
+
+.FLX-SpA {
+  justify-content: space-around; }
+
+/*# sourceMappingURL=FLXbox.css.map */
