@@ -1,0 +1,129 @@
+TERMINAL COMMANDS
+------------------
+System Info
+File System
+File Permissions
+File Commands
+Compression
+Network
+------------------
+https://community.linuxmint.com/tutorial/view/244
+
+
+System Info
+ date: shows the current date and time
+ cal: shows this month's calendar
+ uptime: shows current uptime
+ w: shows who is online
+ whoami: shows who you are logged in as
+ finger
+ uname -a: shows all kernel information
+ cat /proc/cpuinfo: cpu info
+ cat /proc/meminfo: memory info
+ df -h: shows disk usage
+ du: shows directory space usage
+ free: shows memory and swap usage
+ 
+
+Traversing File System
+ pwd: returns current directory path
+ cd (change directory)
+   ~ (option is home directory)
+   / (option is root directory)
+ ls shows directory contents
+   -1 (optin lists contents in one column)
+   -sort (allows sorting of content)
+     =extension (sorts content via filetype)
+
+
+File Permissions
+ chmod octal file: change permissions of file to octal, which can be found separately for user, group, and world by adding (4: read [r], 2: write [w], 1: execute [x])
+  chmod 777: read, write, execute for all
+  chmod 755: rwx for owner, rx for group and world
+
+
+File Commands
+ ls: list directory contents
+  -l: long format option
+  -laC: lists all files in long format in columns
+  -F: file type option
+ cd: change current directory (to home by default)
+  dir: moves current directory to path of dir
+ mkdir dir: creaties a directory for dir
+ pwd: shows current directory
+ 
+ rm: remove a file or directory
+  -r: remove directory
+  -f: force remove
+
+ cp file1 file2: copy file1 to file2
+  -r dir1 dir1: copy directory, creates it if it doesn't exist
+
+ ln -s file link: create a shortcut from link to file
+ touch file: create or update file
+ cat > file: places stanard input into file
+ cat file: display the file called file
+
+ more file: read file page by page
+ head file: read first ten lines of file
+ tall file:: read last ten lines of file
+  -20 file: display last 20 lines of file
+  -f: read file contents as it grows
+
+
+Compression
+
+
+Network
+ ifconfig: List IP addresses for all devices on the local machine
+ iwconfig: Used to set the parameters of the network interface which are specific to the  wireless operation (for example: the frequency)
+ iwlist: used to display some additional information from a wireless network interface that is not displayed by iwconfig
+
+ ping host: Ping host and output results
+ whois domain: Get whois information for domain
+ dig domain: Get DNS information for domain
+  -x host: Reverse lookup host
+ wget file: Download file
+  -c file: Continue a stopped download
+
+
+Stopping & Starting
+ shutdown: Shutdown the system
+  now: shutdown immediately, no reboot
+  -r: reboot after shutdown
+  -r 5: shutdown in 5 minutes, and reboot
+ reboot: stop all processes and reboot
+ ?starx: start the X system?
+
+ halt: stop all processes, same as above
+
+
+less reads a file
+nano edits a file
+mk
+mkdir
+
+rm
+
+-f = to ignore non-existent files
+-r = to remove directories and their contents recursively
+-v = to explain what is being done
+
+rmdir
+
+mv
+
+mvdir
+
+rsync 
+	One of the easiest and most reliable way of transferring files from directory to directory is with the rsync command. This preserves permissions and has good data integrity features.
+
+chmod - alters file permissions
+
+nautilus - G.U.I. command (also opens current directory)
+------------------------------
+LYNX (Text Browser)
+lynx is a text based web browser which runs in the terminal. It fetches website content without styling or scripts. That is only
+text.
+
+lynx url

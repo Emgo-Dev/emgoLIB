@@ -64,6 +64,14 @@ The standards for data type naming is agreed that either a full type, partial ty
 
 > **object** as **obj** or **args**
 
+#### Defaults
+
+If the need for giving a parameter (or any identifier) a name is greater than the need for brevity, you can further indicate to the expected data type by assigning the default value to an empty form of that data type.
+
+```js
+function getName( firstName = "", lastName = "", age = -1 ){ return firstname + " " + lastName; }
+```
+
 ### Use 'this' in prototypes
 
 When prototyping a method, if you want to use the 'this' keyword you must invoke a function with `function(){}` and not the arrow syntax `() => {}`. The arrow syntax will not transfer 'this' into the function.

@@ -55,6 +55,12 @@ A collection of common terms in web/software development, programming, etc. The 
 > - General-purpose modeling language such as the Unified Modeling Language (>UML)
 > - General-purpose programming languages, such as C, Java or Python
 
+**Hungarian Notation**: In computer programming, an identifier naming convention in which the name of a variable or function indicates its intention or kind, and in some dialects its type.
+
+> [Wikipedia](https://en.wikipedia.org/wiki/Hungarian_notation)
+
+> In Hungarian notation, a variable name starts with a group of lower-case letters which are mnemonics for the type or purpose of that variable, followed by whatever name the programmer has chosen; this last part is sometimes distinguished as the given name. The first character of the given name can be capitalized to separate it from the type indicators (see also CamelCase). Otherwise the case of this character denotes scope.
+
 **Imperative Programming**: In computer science, imperative programming is a programming paradigm that uses statements that change a program's state. In much the same way that the imperative mood in natural languages expresses commands, an imperative program consists of commands for the computer to perform. Imperative programming focuses on describing how a program operates.
 
 **Polyfill**
