@@ -26,7 +26,7 @@ toOrdinal("25"); // "25th"
 getColonTime(new Date()); // 08:30:00
 ```
 
-## Problems
+## Code
 
 If a library doesn't solve a problem it shouldn't exist. Here are the problems and solutions my libraries solve.
 
@@ -35,6 +35,20 @@ If a library doesn't solve a problem it shouldn't exist. Here are the problems a
 - [Meridiem: Morning or Evening?](#meridiem:-morning-or-afternoon)
 - [setInterval: Do this Every X](#setinterval:-do-this-every-x)
 - [setTimeout: Do this After X](#settimeout:-do-this-after-x)
+
+### area(): Find the area of ANYTHING!
+
+Finding the area of a geometric shape requires a specific formula for some over others. This function combines the formula for the gemoetric shapes. Pass in the type of gemoetric shape you want to calculate for in the first parameter, and the dimensions to calculate following.
+
+The first parameter is expected to be the name of the formula, while the following values will only be used up to the required dimensions for the formula. If you want to perform multiple operations, call the function independently.
+
+```js
+area("circle", 25); // 1963.4954084936207
+area("square", 25); // 625
+area("ellipse", 25, 35); // 2748.8935718910693
+area("parallelogram", 25, 35); // 875
+area("trapezoid", 25, 50, 12); // 15000
+```
 
 ### Query Selector: Targeting Elements
 
