@@ -1,133 +1,59 @@
 class Calendar {
+	// I'M SAVING THESE LINKS FOR LATER USED
+	// THEY WILL GO IN A DOCUMENTATION FILE SOMETIME LATER
 	// https://www.timeanddate.com/
+	// https://www.timeanddate.com/calendar/jewish-calendar.html
+	// https://www.timeanddate.com/calendar/roman-calendar.html
+	// https://www.timeanddate.com/calendar/julian-calendar.html
+	// https://www.timeanddate.com/calendar/gregorian-calendar.html
+	// https://www.timeanddate.com/calendar/months/
+	// https://www.timeanddate.com/calendar/days/
 
-	constructor(){
-		// https://www.timeanddate.com/calendar/jewish-calendar.html
-		this.jewishMonths = ["Nisan", "Iyar", "Sivan", "Tammuz", "Av", "Alul", "Tishrei", "Marcheshvan", "Kislev", "Tevet", "Shevat", "Adar"]
-		this.jewishMonths = ["30", "29", "30", "29", "30", "29", "30", "29", "30", "29", "30", "30"]
-		// https://www.timeanddate.com/calendar/roman-calendar.html
-		this.romanMonths = ["Martius", "Aprilis", "Maius", "Iunius", "Quintilis", "Sextilis", "September", "Sextilis", "October", "November", "December"]
-		this.romanMonths = [31, 30, 31, 30, 31, 30, 30, 31, 30, 30]
-		// https://www.timeanddate.com/calendar/julian-calendar.html
-
-		// https://www.timeanddate.com/calendar/gregorian-calendar.html
-		// https://www.timeanddate.com/calendar/months/
-		// https://www.timeanddate.com/calendar/days/
-		this.oldMonths = ["January", "February", "March", "April", "May", "June", "Quintilis", "Sextilis", "September", "October", "November", "December"]
-		this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-		this.days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-		this.holidays = [
-			[[10, 23], "Thanksgiving Day"],
-			[[11, 25], "Christmas Eve"],
-			[[11, 25], "Christmas Day"],
-			[[11, 31], "New Years Eve"]
-		];
+	constructor( monthCol = {} ){
+		// EXPECT A JSON COLLECTION OF MONTHS
+		// MONTH AS PROPERTY, DAYS IN THE MONTH AS AN INTEGER VALUE
+		this.col = Object.entries(monthCol);
 	}
 
-	/**
-	 * Get day length of month from index
-	 *
-	 * @param   {number}  index   The index
-	 * @return  {<type>}          The days.
-	 */
-	getDays( monthIndex ){
-		if( typeof monthIndex !== "number" ){
-			throw new Error("Calendar.getDays: Parameter was not a number.");
-		}else if( monthIndex < 0 ){ monthIndex = 0; }else if( monthIndex > 11 ){ monthIndex = 11; }
+	getMonths(){ return this.col.map( x => this.getMonth(x) ); }
 
-		return this.days[monthIndex];
-	}
+	preparedMonths(){ return this.getMonths().map( x => x.toLowerCase() ); }
 
-	/**
-	 * Get day length of month from string name
-	 *
-	 * @param   {string}  monthName  The month name
-	 * @return  {integer}            Days in monthName
-	 */
-	getDaysOf( monthName ){
-		if( typeof monthName !== "string" ){
-			throw new Error("Calendar.getDaysOf: Parameter was not a string.");
-		}
+	preparedMonthInt( int = 0 ){ return int < 0 ? 0 : int > this.col.length - 1 ? this.col.length - 1 : int; }
 
-		let monthIndex = 0;
+	getDays(){ return this.col.map( x => this.getDay(x) ); }
 
-		for( let month of this.months ){
-			if( monthName.toLowerCase() === month.toLowerCase() ){ return this.days[monthIndex]; }
+	getDay( col = [] ){ return col[1]; }
 
-			monthIndex++;
-		}
-	}
+	getMonth( col = [] ){ return col[0]; }
 
-	/**
-	 * Determines if monthName is found in this.month
-	 *
-	 * @param   {string}   monthName  Valid month
-	 * @return  {boolean}             True if month, False otherwise.
-	 */
-	isMonth( monthName ){
-		for( let month of this.months ){
-			if( month.toLowerCase() === monthName.toLowerCase() ){
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	getMonth( monthIndex ){
-		if( typeof monthIndex !== "number" ){
-			throw new Error("Calendar.getMonth: Parameter was not a number.");
-		}else if( monthIndex < 0 ){ monthIndex = 0; }else if( monthIndex > 11 ){ monthIndex = 11; }
-
-		return this.months[monthIndex];
-	}
-
-	getMonthShort( monthIndex = null ){
-		return this.getMonth( monthIndex ).slice(0, 3);
-	}
-
-	getMonths(){
-		return this.months;
-	}
-
-	toFullMonth( shortMonth ){
-		if( typeof shortMonth !== "string" ){
-			throw new Error("Calendar.toFullMonth: Parameter given was not a string.");
-		}else if( shortMonth.length !== 3 ){
-			throw new Error("Calendar.toFullMonth: Parameter given was not a short month name.");
-		}
-
-		let monthIndex = 0;
-
-		for( let month of this.months ){
-			if( month.slice(0, 3).toLowerCase() === shortMonth.slice(0, 3).toLowerCase()){
-				return month;
+	findMonth( month ){
+		if( typeof month === "string" ){
+			if( month.length < 4 ){
+				return this.preparedMonths().filter( x => this.toAbbr(x) === this.toAbbr(month).toLowerCase() ).map( x => x.slice(0, 1).toUpperCase().concat(x.slice(1)) );
+				// return this.preparedMonths().map( x => this.toAbbr(x) ).filter( x => x === this.toAbbr(month).toLowerCase() ).map( x => x.slice(0, 1).toUpperCase().concat(x.slice(1)) );
 			}
 
-			if( month.slice(0, 1).toLowerCase() === shortMonth.slice(0, 1).toLowerCase() ){
-				let letterIndex = 0;
-				let monthMatch = month.slice(0, 3);
+			return this.preparedMonths().filter( x => x === month.toLowerCase() ).map( x => x.slice(0, 1).toUpperCase().concat(x.slice(1)) );
+		}else if( typeof month === "number" ){
+			return this.getMonths()[this.preparedMonthInt(month)];
+		}
 
-				for( letter of monthMatch ){
-					if( letter !== shortMonth.slice(letterIndex, letterIndex+1) ){ break; }
-					letterIndex++;
-				}
+		return this.preparedMonths().filter( x => x === month.toLowerCase() );
+	}
 
-				return month;
-			}
-
-			monthIndex++;
+	findDay( month ){
+		if( typeof month === "number" ){
+			return this.getDay(this.col[this.preparedMonthInt(month)]);
 		}
 	}
 
-	toShortMonth( monthName ){
-		if( typeof monthName !== "string" ){
-			throw new Error("Calendar.toShortMonth: Parameter was not a string.");
-		}else if( !this.isMonth(monthName) ){
-			throw new Error("Calendar.toShortMonth: Parameter was not a month.");
-		}
-		
-		return monthName.slice(0, 3);
+	toAbbr( str ){ return str.slice(0, 3); }
+
+	isMonth( month ){
+		if( this.findMonth(month).length < 1 ){ return true; }
+
+		throw new Error("Calendar.getDaysOf: Parameter was not a string.");
 	}
 }
 
