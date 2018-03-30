@@ -1,4 +1,8 @@
+.gitignore
 *node_modules/
 *test.js
 *.log
 *.lock
+*.css
+haste-map-*w
+perf-cache-*
