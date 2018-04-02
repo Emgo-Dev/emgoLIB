@@ -1,3 +1,9 @@
+function sift( arr = [], sifted = [], i = -1 ){
+  i = i + 1; // INCREMENT ITERATOR
+  if( typeof arr[i] === "undefined" ) return sifted;
+  else return sift( arr, [...sifted, arr[i]], i );
+}
+
 /*
   toObject(["a", "b"], ["dee", "dum"]) -> { a: "dee" b: "dum" }
 */
