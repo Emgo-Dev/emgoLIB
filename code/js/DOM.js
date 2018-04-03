@@ -86,6 +86,39 @@ class DOM {
 
 		return elementCollection;
 	}
+
+	findParents( node, tagName = "", parents = [] ){
+	  if( ![null, undefined].includes(node.parentElement) ){
+	    let parent = node.parentElement;
+	    if( parent.tagName.toLowerCase() === tagName.toLowerCase() ){ parents.push( parent ); }
+	    findParents( parent, tagName, parents );
+	  }
+
+	  return parents;
+	}
+
+	findParent( node, tagName = "", parents = [] ){
+	  if( ![null, undefined].includes(node.parentElement) ){
+	    let parent = node.parentElement;
+	    if( parent.tagName.toLowerCase() === tagName.toLowerCase() ){ parents.push(parent); }
+	    console.log( node, tagName, parent.tagName );
+	    findParent( parent, tagName, parents );
+	  }
+
+	  return parents[0];
+	}
+
+	findNear( node, selector = "" ){
+	  if( ![null, undefined].includes(node.parentElement) ){
+	    let parent = node.parentElement;
+	    if( ![null, undefined].includes(parent.querySelector(selector)) ){
+	      return parent.querySelector(selector);
+	    }
+	    findNear( parent, selector );
+	  }
+
+	  return [];
+	}
 };
 
 module.exports = new DOM();
