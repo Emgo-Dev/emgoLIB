@@ -1,27 +1,18 @@
-function sift( arr = [], sifted = [], i = -1 ){
-  i = i + 1; // INCREMENT ITERATOR
-  if( typeof arr[i] === "undefined" ) return sifted;
-  else return sift( arr, [...sifted, arr[i]], i );
+/*
+  isArray("Hi") -> false
+  isArray(1) -> false
+  isArray(true) -> false
+  isArray(false) -> false
+  isArray({}) -> false
+  isArray([]) -> true
+*/
+function isArray( col ){
+  if( typeof col !== "object" ) return false;
+  if( col.__proto__.constructor.name !== "Array" ) return false;
+
+  return true;
 }
 
-/*
-  toObject(["a", "b"], ["dee", "dum"]) -> { a: "dee" b: "dum" }
-*/
-function toObject( keys, values ){
-    let keyI = 0;
-    let loopI = 0;
-    let obj = {};
-
-    for( let val of values ){
-        let noKey = !keys[loopI] ? true : false;
-        if( noKey ){
-            obj[keyI] = val;
-            keyI += 1;
-        }else{
-            obj[keys[loopI]] = val;
-    }
-
-        loopI += 1;
   }
 
     return obj;
