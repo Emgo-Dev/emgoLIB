@@ -1,3 +1,23 @@
+// STYLESHEET OF TOOLS FOR EFFECTIVELY IMPLEMENTING FLEXBOX INTO A PROJECT
+
+$start: flex-start; // STORE PROPER DATA VALUE FOR THE 'START' ALIGNMENT OF FLEXBOX
+$end: flex-end; // STORE PROPER DATA VALUE FOR THE 'END' ALIGNMENT OF FLEXBOX
+$center: center; // STORE DATA VALUE FOR CENTER ALIGNMENT OF FLEXBOX
+
+// SCSS MIXIN FOR ASSIGNING BASE NECESSITIES TO DEFINE FLEXBOX PROPERTIES OF CONTAINER ELEMENT
+@mixin flex( $flow, $flex ){
+	display: flex;
+	flex-flow: $flow;
+	flex: $flex;
+}
+
+// SCSS MIXIN FOR ASSIGNING FLEXBOX ALIGNMENTS
+@mixin flexJCI( $justify, $content, $items ){
+	justify-content: $justify;
+	align-content: $content;
+	align-items: $items;
+}
+
 .FLX {
   display: flex;
   flex: auto 0 0;
