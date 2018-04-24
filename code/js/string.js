@@ -1,12 +1,8 @@
-// GOING TO BE USING SIMPLE COMMENT-DOCUMENTATION. KEEPING THIS FILE EASIER TO READ WITH TEST RESULTS FOR EACH FUNCTION
-// SHOWING TEST RESULTS DISPLAYS EXPECTED INPUTS AND EXPECTED FAILURES FOR INCORRECT INPUTS
-// DISPLAYS BEST USE OF THE FUNCTIONS AS WELL, RATHER THAN OFFERING A DESCRIPTION, AND PARAMETER CONSTRAINTS
-// FULL DOCUMENTATION OF CODE CAN BE GIVEN IN A SEPARATE DOCUMENTATION DIRECTORY DISCUSSING THEORY, PRACTICE, SYNTAX, ETC.
 /*
   toCapital("fooBar") -> "Foo Bar"
   toCapital("fooBar", 1) -> "Foo bar"
 */
-let toCapital = ( str, lowAll = 0 ) => {
+function toCapital( str, lowAll = 0 ){
     if( typeof str !== "string" ){ throw TypeError(`toCapital() requires first parameter to be a string. The data type of given value was ${typeof str}`); }
     if( typeof lowAll !== "number" ){ throw TypeError(`toCapital() requires second parameter to be a number. Default (0) ignores case of rest of string, on (1) de-capitalizes rest of string.`); }
 
@@ -20,7 +16,7 @@ let toCapital = ( str, lowAll = 0 ) => {
   toOrdinal("first") -x "firstth"
   toOrdinal("second") -x "secondth"
 */
-let toOrdinal = int => {
+function toOrdinal( int ){
     // ONLY CHECK DATA TYPE OF GIVEN PARAMETER
     // DOESN'T CHECK WHETHER THE GIVEN PARAMETER IS A REAL INTEGER NUMBER, WHETHER PARSED OR NOT
     // FAIL CASE PARAMETER VALUES: "first", 1.5, "1.5"
@@ -39,7 +35,7 @@ let toOrdinal = int => {
   to12Hour(24) -> 12
   to12Hour(25) -> 1
 */
-let to12Hour = int => {
+function to12Hour( int ){
     // ONLY HANDLES CONVERTING PATTERNS OF INTEGERS BETWEEN PERIODS OF 12 DOWN TO 12 HOUR TIME FORMATS
     // DOESN'T RETURN DATA OF ORIGINAL GIVEN INTEGER WHICH CAN BE USED TO DETERMINE THE 12 HOUR TIME AFTER SO MANY DAYS
     // ie: 72 HOURS IS MIDNIGHT ON THE THIRD DAY BUT FUNCTION WOULD ONLY RETURN 12 DUE TO 12 AM
@@ -63,7 +59,7 @@ getMeridiem("7pmpm") -x "pmpm"
 getMeridiem("7pmam") -x "am"
 getMeridiem("7pm7am") -x "am"
 */
-let toMeridiem = int => {
+function toMeridiem( int ){
     // SAME PROBLEMS AS OUTLINED IN to12Hour()
     if( !["string", "number"].includes(typeof int) ){ throw TypeError(`toMeridiem() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); }
     if( isNaN(parseInt(int)) ){ throw TypeError(`toMeridiem() requires first parameter to contain a usable number. The data of given value was ${int} and is Not-A-Number (NAN)}`); }
@@ -79,7 +75,11 @@ let toMeridiem = int => {
   getMeridiem("7") -x "7"
   getMeridiem(7) -x TypeError: str.includes is not a function
 */
-let getMeridiem = str => str.slice( str.search( ["am","pm"].filter( r => str.includes(r) )[0] ) );
+function getMeridiem( str ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`getMeridiem() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
+
+  return str.slice( str.search( ["am","pm"].filter( r => str.includes(r) )[0] ) );
+}
 
 /*
   toDigits("0", 1) -> "0"
@@ -90,7 +90,12 @@ let getMeridiem = str => str.slice( str.search( ["am","pm"].filter( r => str.inc
   toDigits("01", 3, 1) -> "010"
   toDigits("10", 3) -> "100"
 */
-let toDigits = ( str = 0, len = 1, x = 0 ) => [str.padStart(len, "0"), str.padEnd(len, "0")][x > 0 ? 1 : 0];
+function toDigits( str = 0, len = 1, x = 0 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
+  if( typeof str === "string" ) return str.slice(0, len);
+  
+  return [str.padStart(len, "0"), str.padEnd(len, "0")][x > 0 ? 1 : 0];
+}
 
 /*
   setDigits("0", 1) -> "00"
@@ -101,7 +106,11 @@ let toDigits = ( str = 0, len = 1, x = 0 ) => [str.padStart(len, "0"), str.padEn
   setDigits("01", 3, 1) -> "01000"
   setDigits("10", 3) -> "00010"
 */
-let setDigits = ( str = 0, len = 1, x = 0 ) => [str.padStart(str.length + len, "0"), str.padEnd(str.length + len, "0")][x > 0 ? 1 : 0];
+function setDigits( str = 0, len = 1, x = 0 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
+
+  [str.padStart(str.length + len, "0"), str.padEnd(str.length + len, "0")][x > 0 ? 1 : 0];
+}
 
 /*
 getDecimals("1") -x "1"
@@ -113,7 +122,7 @@ getDecimals("10.500") -> "500"
 getDecimals("10..500") -x ".500"
 getDecimals("10...500") -x "..500"
 */
-let getDecimals = str => {
+function getDecimals( str ){
     if( !["string", "number"].includes(typeof str) ){ throw TypeError(`toWrittenNumb() requires first parameter to be a string or number. The data type of given value was ${typeof str}.`); }
     if( typeof str == "number"){ str = String(str % 1).slice(2); }
 
@@ -129,7 +138,7 @@ toWrittenNumb(0000) -> "0"
 toWrittenNumb(1000000) -> "1,000,000"
 toWrittenNumb(0000000) -> "0"
 */
-let toWrittenNumb = int => {
+function toWrittenNumb( int ){
     if( !["string", "number"].includes(typeof int) ){ throw TypeError(`toWrittenNumb() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); }
     let num = String(int % 1 < 1 && int % 1 > 0 ? parseFloat(int) : parseInt(int));
     let decI = num.search("\\.");
