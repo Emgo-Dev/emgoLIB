@@ -143,6 +143,14 @@ function findPI( iter = 10 ){
 	return pi;
 }
 
+function toFahrenheit( int ){
+	return (9 * int) / 5 + 32;
+}
+
+function toCelcius( int ){
+	return (int - 32) * 5 / 9;
+}
+
 ////
 ////////        Area Formulae
 ////////////////////////////////////////////////
