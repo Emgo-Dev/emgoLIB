@@ -1,6 +1,6 @@
 /*
-  toCapital("fooBar") -> "Foo Bar"
-  toCapital("fooBar", 1) -> "Foo bar"
+  toCapital("foo Bar") -> "Foo Bar"
+  toCapital("foo Bar", 1) -> "Foo bar"
 */
 function toCapital( str, lowAll = 0 ){
     if( typeof str !== "string" ){ throw TypeError(`toCapital() requires first parameter to be a string. The data type of given value was ${typeof str}`); }
@@ -93,7 +93,7 @@ function getMeridiem( str ){
 function toDigits( str = 0, len = 1, x = 0 ){
   if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
   if( typeof str === "string" ) return str.slice(0, len);
-  
+
   return [str.padStart(len, "0"), str.padEnd(len, "0")][x > 0 ? 1 : 0];
 }
 
@@ -179,23 +179,3 @@ const getIsoTime = str => str.match(/\w{2}:\w{2}:\w{2}/)[0]
 const getIsoHour = str => str.match(/\w{2}(?=:)/)[0]
 const getIsoMinute = str => str.match(/\w{2}(?=:\w{2}\.)/)[0]
 const getIsoSecond = str => str.match(/\w{2}(?=\.)/)[0]
-
-module.exports = {
-    toCapital: toCapital,
-    toOrdinal: toOrdinal,
-    to12Hour: to12Hour,
-    toMeridiem: toMeridiem,
-    getMeridiem: getMeridiem,
-    maintainDigits : maintainDigits,
-    setDigits : setDigits,
-    getDecimals : getDecimals,
-    toWrittenNumb : toWrittenNumb,
-    getIsoDate : getIsoDate,
-    getIsoYear : getIsoYear,
-    getIsoMonth : getIsoMonth,
-    getIsoDay : getIsoDay,
-    getIsoTime : getIsoTime,
-    getIsoHour : getIsoHour,
-    getIsoMinute : getIsoMinute,
-    getIsoSecond : getIsoSecond
-}

@@ -167,10 +167,10 @@ function area( type = "", dimensions ){
 		ellipse( w, h ){ return Math.PI * w * h; },
 		parallelogram( w, h ){ return w * h; },
 		rectangle( w, h ){ return w * h; },
-		sector( r, a ){ return r * r * a / 2; }
+		sector( r, a ){ return r * r * a / 2; },
 		square( i ){ return i * i; },
 		trapezoid( w1, h, w2, ){ return w1 * w2 * h; },
-		triangle( w, h ){ return w * h / 2; },
+		triangle( w, h ){ return w * h / 2; }
 	}
 
 	return areas[type.toLowerCase()]( w, h, w2 );
