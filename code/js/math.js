@@ -54,6 +54,10 @@ function divide( numbers = 0 ){
 	return n;
 }
 
+function exponentiate( num = 0, power = 0, exp = 1 ){
+	return power < 1 ? exp : exponentiate( num, power - 1, exp * num );
+}
+
 /*
 	numbersFromTo(0, 5) -> [0, 1, 2, 3, 4, 5]
 	numbersFromTo(0, 5, n => n % 2 === 0) -> [0, 2, 4]
