@@ -102,21 +102,51 @@ function area( type = "", dimensions ){
 		ellipse( w, h ){ return Math.PI * w * h; },
 		parallelogram( w, h ){ return w * h; },
 		rectangle( w, h ){ return w * h; },
+		sector( r, a ){ return r * r * a / 2; }
 		square( i ){ return i * i; },
 		trapezoid( w1, h, w2, ){ return w1 * w2 * h; },
-		triangle( w, h ){ return w * h / 2; }
-		sector( r, a ){ return r * r * a / 2; }
+		triangle( w, h ){ return w * h / 2; },
 	}
 
 	return areas[type.toLowerCase()]( w, h, w2 );
+}
+
+/*
+	volume("cube", 2) -> 8
+	volume("pyramid", 2, 8, 4) -> 21.33...
+	volume("pyramid", (2 * 4), 8) -> 21.33...
+*/
+function volume( type = "", dimensions ){
+  const w = arguments[1];
+  const h = arguments[2];
+	const l = arguments[3];
+  const volumes = {
+		// SOME FORMULAE USE 'base' OR 'b' AS A PRE-CALCULATED AREA OF w AND l
+		// FOR THOSE THAT DO, IF l IS UNSET, DETERMINE THAT BASE WAS CALCULATED FOR BY USER AS w
+		// THIS RENDERS THE NEED FOR A SEPARATE 'rectangular prism' FROM prism() UNNECESSARY
+		cone( r, h ){ return ( Math.PI * (r * r) * h ) / 3; },
+		cube( i ){ return i * i * i; },
+		cylinder( r, h ){ return ( Math.PI * (r * r) ) * h; },
+		hemisphere( r ){ return ( 2 * Math.PI * (r * r * r) ) / 3; },
+		prism( w, h, l ){ return l !== undefined ? (w * l) * h : w * h; },
+		/* rectanglePrism( w, h, l ){ return w * h * l; }, */
+		pyramid( w, h, l ){ return l !== undefined ? ( (w * l) * h ) / 3 : (w * h) / 3; },
+		radius( w, h ){ return Math.sqrt( w / (Math.PI * h) ); },
+		rectangle( w, h, l ){ return w * h * l; },
+		sphere( r ){ return ( 4 * Math.PI * (r * r * r) ) / 3; }
+  }
+
+  return volumes[type.toLowerCase()]( w, h, l );
 }
 
 function circumference( n ){
 	return Math.PI * n * 2;
 }
 
-function perimeter(){
+function perimeter( measurements ){
 	let n = arguments[0];
+
 	for( let arg in arguments ) if( arg > 0 ) n += arguments[arg];
+
 	return n;
 }
