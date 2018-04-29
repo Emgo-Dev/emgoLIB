@@ -67,6 +67,8 @@ const randomBetween = ( len, min, max ) => {
 	);
 }
 
+// Nilakantha series
+// https://www.mathsisfun.com/numbers/pi.html
 function findPI( iter = 10 ){
 	let pi = 0, s = 3, o = 4, und = [2, 3, 4];
 	const oneUp = () => und = und.map( u => u + 2 );
@@ -89,6 +91,7 @@ function findPI( iter = 10 ){
 ////////////////////////////////////////////////
 //// http://www.mathsisfun.com/area.html
 //// https://www.skillsyouneed.com/num/area.html
+//// https://www.varsitytutors.com/hotmath/hotmath_help/topics/perimeter-area-volume
 
 function area( type = "", dimensions ){
 	const w = arguments[1];
