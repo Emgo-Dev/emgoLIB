@@ -54,17 +54,70 @@ function divide( numbers = 0 ){
 	return n;
 }
 
-function countBetween( a, b ){
-	for( let i = a, j = 0, c = []; i <= b; i++, j++ ) c[j] = i;
+/*
+	numbersFromTo(0, 5) -> [0, 1, 2, 3, 4, 5]
+	numbersFromTo(0, 5, n => n % 2 === 0) -> [0, 2, 4]
+	numbersFromTo(0, 5, n => n % 2 !== 0) -> [1, 3, 5]
+	numbersFromTo(-5, 5) -> [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+	numbersFromTo(5, -5) -> undefined
+*/
+function numbersFromTo( min, max, callback ){
+	for( let num = min, index = 0, col = []; num <= max; num++, index++ ){
+		if( callback ){
+			callback(num) === true ? col[index] = num : index--;
+		}else{
+			col[index] = num;
+		}
 
-	return c;
+		if( num === max ) return col;
+	}
+}
+
+/*
+	numbersBetween(0, 5) -> [1, 2, 3, 4]
+	numbersBetween(0, 5, n => n % 2 === 0) -> [2, 4]
+	numbersBetween(0, 5, n => n % 2 !== 0) -> [1, 3]
+	numbersBetween(-5, 5) -> [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+	numbersBetween(5, -5) -> undefined
+*/
+function numbersBetween( min, max, callback ){
+	for( let num = min + 1, index = 0, col = []; num < max; num++, index++ ){
+		if( callback ){
+			callback(num) === true ? col[index] = num : index--;
+		}else{
+			col[index] = num;
+		}
+
+		if( num === (max - 1) ) return col;
+	}
 }
 
 // https://github.com/Chalarangelo/30-seconds-of-code/pull/543/commits/3c69263268f988937ea7041b5441d29f373416fd
-const randomBetween = ( len, min, max ) => {
+function randomBetweenProto( len, min, max ){
 	Array.from({ length: len }, () =>
-		Math.floor(Math.random() * (max - min) + min)
+		Math.floor(Math.random() * (max - min) + min);
 	);
+}
+
+/*
+	randomBetween(0, 5, 3) -> [1, 3, 2]
+	randomBetween(0, 5, 3) -> [2, 2, 0]
+	randomBetween(0, 5, 3) -> [4, 0, 2]
+	randomBetween(5, -5, 3) -> [-1, 3, 0]
+*/
+function randomBetween( min, max, len, callback ){
+	function findRandom(){ return Math.floor(Math.random() * (max - min) + min); }
+
+	for( col = [], index = 0; index < len; index++ ){
+		if( callback ){
+			let num = findRandom();
+			callback(num) === true ? col[index] = num : index--;
+		}else{
+			col[index] = findRandom();
+		}
+
+		if( index === (len - 1) ) return col;
+	}
 }
 
 // Nilakantha series
@@ -87,7 +140,7 @@ function findPI( iter = 10 ){
 }
 
 ////
-////////        Area Formulai
+////////        Area Formulae
 ////////////////////////////////////////////////
 //// http://www.mathsisfun.com/area.html
 //// https://www.skillsyouneed.com/num/area.html
