@@ -112,6 +112,27 @@ function setDigits( str = 0, len = 1, x = 0 ){
   [str.padStart(str.length + len, "0"), str.padEnd(str.length + len, "0")][x > 0 ? 1 : 0];
 }
 
+function toLen( str = "", len = 0, fill = "", dir = 0 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
+
+  for( let i = 0; i < len; i++ ){
+    if( str[i] !== undefined ) str = str + str[i];
+    else str = dir < 1 ? str + fill : fill + str;
+  }
+
+  return str;
+}
+
+function setLen( str = "", len = 0, fill = "", dir = 0 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
+
+  for( let i = len; i > 0; i-- ){
+    str = dir < 1 ? str + fill : fill + str;
+  }
+
+  return str;
+}
+
 /*
 getDecimals("1") -x "1"
 getDecimals("1.") -x ""
