@@ -4,7 +4,7 @@
 	add(1, 1, 1, 1, 1, 1, 1, 1, 1, 1) -> 10
 	add(-1, -1, -1, -1, -1, 1, 1, 1, 1, 1) -> 0
 */
-function add(){
+function add( numbers = 0 ){
 	let n = arguments[0];
 	for( let arg in arguments ) if( arg > 0 ) n += arguments[arg];
 	return n;
@@ -18,7 +18,7 @@ function add(){
 	subtract(-1, -1, -1, -1, -1, 1, 1, 1, 1, 1) -> -2
 	subtract(1, 1, 1, 1, 1, -1, -1, -1, -1, -1) -> 2
 */
-function subtract(){
+function subtract( numbers = 0 ){
 	let n = arguments[0];
 	for( let arg in arguments ) if( arg > 0 ) n -= arguments[arg];
 	return n;
@@ -31,7 +31,7 @@ function subtract(){
 	subtract(-1, -1, -1, -1, -1, 1, 1, 1, 1, 1) -> -10
 	subtract(1, 1, 1, 1, 1, -1, -1, -1, -1, -1) -> -8
 */
-function subtractF(){
+function subtractAlways( numbers = 0 ){
 	let n = arguments[0];
 	for( let arg in arguments ) if( arg > 0 ) arguments[arg] < 0 ? n += arguments[arg] : n -= arguments[arg];
 	return n;
@@ -42,13 +42,13 @@ function subtractF(){
 	product(2, 2) -> 4
 	product(2, -2) -> -4
 */
-function product(){
+function product( numbers = 0 ){
 	let n = arguments[0];
 	for( let arg in arguments ) if( arg > 0 ) n *= arguments[arg];
 	return n;
 }
 
-function divide(){
+function divide( numbers = 0 ){
 	let n = arguments[0];
 	for( let arg in arguments ) if( arg > 0 ) n /= arguments[arg];
 	return n;
