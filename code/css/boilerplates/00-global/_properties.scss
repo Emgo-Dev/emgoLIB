@@ -1,0 +1,226 @@
+// PROPERTY-LIKE CLASSES
+.z {
+	z-index: 0;
+
+	&1 { position: relative; z-index: 1; }
+	&2 { position: relative; z-index: 2; }
+	&3 { position: relative; z-index: 3; }
+	&4 { position: relative; z-index: 4; }
+	&5 { position: relative; z-index: 5; }
+	&6 { position: relative; z-index: 6; }
+	&7 { position: relative; z-index: 7; }
+	&8 { position: relative; z-index: 8; }
+	&9 { position: relative; z-index: 9; }
+	&10 { position: relative; z-index: 10; }
+}
+
+.p {
+	position: relative;
+
+	&r { position: relative; }
+	&a { position: absolute; }
+	&f { position: fixed; }
+}
+
+.o {
+	overflow: hidden;
+
+	&a { overflow: auto; }
+	&v { overflow: visible; }
+	&h { overflow: hidden; }
+
+	&s {
+		overflow: scroll;
+
+		&x { overflow-x: scroll;}
+		&y { overflow-y: scroll; }
+	}
+}
+
+// Display
+.d {
+	&i { display: inline; }
+
+	&ib { display: inline-block; }
+
+	&b {
+		display: block;
+		// Allows the anchor to behave like yeast, expanding to the full size of its' container. By default an inline-element cannot do this, and an anchor tag wrapped around other content can limit the display of those children elements if they rely on percentages of the main container.
+		display: block;
+		width: 100%;
+		height: auto;
+
+		&--expand {
+			@extend .db;
+			@extend .oa;
+			position: relative;
+			height: auto;
+		}
+	}
+
+	&f {
+		display: flex;
+		flex: auto 0 0;
+
+		&g {
+			@extend .df;
+			flex: auto 1 1;
+		}
+
+		&r {
+			@extend .df;
+			flex-flow: row wrap;
+
+			&s {
+				@extend .dfr;
+				justify-content: start;
+				align-content: start;
+				align-items: start;
+
+				&s { @extend .dfrs; align-items: start; }
+				&c { @extend .dfrs; align-items: center; }
+				&e { @extend .dfrs; align-items: end; }
+			}
+
+			&c {
+				@extend .dfr;
+				justify-content: center;
+				align-content: start;
+				align-items: start;
+
+				&s { @extend .dfrc; align-items: start; }
+				&c { @extend .dfrc; align-items: center; }
+				&e { @extend .dfrc; align-items: end; }
+			}
+
+			&e {
+				@extend .dfr;
+				justify-content: end;
+				align-content: start;
+				align-items: start;
+
+				&s { @extend .dfre; align-items: start; }
+				&c { @extend .dfre; align-items: center; }
+				&e { @extend .dfre; align-items: end; }
+			}
+		}
+
+		&c {
+			@extend .df;
+			flex-flow: column wrap;
+
+			&s {
+				@extend .dfc;
+				justify-content: start;
+				align-content: start;
+				align-items: start;
+
+				&s { @extend .dfcs; align-items: start; }
+				&c { @extend .dfcs; align-items: center; }
+				&e { @extend .dfcs; align-items: end; }
+			}
+
+			&c {
+				@extend .dfc;
+				justify-content: center;
+				align-content: start;
+				align-items: start;
+
+				&s { @extend .dfcc; align-items: start; }
+				&c { @extend .dfcc; align-items: center; }
+				&e { @extend .dfcc; align-items: end; }
+			}
+
+			&e {
+				@extend .dfc;
+				justify-content: end;
+				align-content: start;
+				align-items: start;
+
+				&s { @extend .dfce; align-items: start; }
+				&c { @extend .dfce; align-items: center; }
+				&e { @extend .dfce; align-items: end; }
+			}
+		}
+	}
+}
+
+// Box
+.b {
+
+	&-sh { box-shadow: 1em 1em 1em black; }
+
+	&-sz {
+		box-sizing: content-box;
+
+		&c { box-sizing: content-box; }
+		&b { box-sizing: border-box; }
+	}
+}
+
+.f {
+
+	&f {
+		&--serif { font-family: serif;      }
+		&--sans  { font-family: sans-serif; }
+		&--mono  { font-family: monospace;  }
+	}
+
+	&s {
+		font-size: 1em;
+
+		&-3 { font-size: 0.25em; @extend .lh-3; }
+		&-2 { font-size: 0.5em;  @extend .lh-2; }
+		&-1 { font-size: 0.75em; @extend .lh-1; }
+		&1  { font-size: 1.25em; @extend .lh1;  }
+		&2  { font-size: 1.5em;  @extend .lh2;  }
+		&3  { font-size: 1.75em; @extend .lh3;  }
+		&4  { font-size: 2em;    @extend .lh4;  }
+		&5  { font-size: 2.25em; @extend .lh5;  }
+		&6  { font-size: 2.5em;  @extend .lh6;  }
+		&7  { font-size: 2.75em; @extend .lh7;  }
+		&8  { font-size: 3em;    @extend .lh8;  }
+		&9  { font-size: 3.25em; @extend .lh9;  }
+		&10 { font-size: 3.5em;  @extend .lh10; }
+	}
+
+	&w {
+		&b { font-weight: bold;   }
+		&m { font-weight: normal; }
+		&t { font-weight: thin;   }
+	}
+}
+
+.lh {
+	line-height: 1em;
+
+	&-3 { line-height: 0.25em; }
+	&-2 { line-height: 0.5em;  }
+	&-1 { line-height: 0.75em; }
+	&1  { line-height: 1.25em; }
+	&2  { line-height: 1.5em;  }
+	&3  { line-height: 1.75em; }
+	&4  { line-height: 2em;    }
+	&5  { line-height: 2.25em; }
+	&6  { line-height: 2.5em;  }
+	&7  { line-height: 2.75em; }
+	&8  { line-height: 3em;    }
+	&9  { line-height: 3.25em; }
+	&10 { line-height: 3.5em;  }
+}
+
+.cl {
+	color: inherit;
+
+	&! { color: inherit !important; }
+}
+
+// Padding
+.pa {
+	&x { padding: 0px; }
+}
+
+// Margin
+.ma {
+	&x { margin: 0px; }
+}

@@ -1,0 +1,42 @@
+.conceal {
+  display: none !important;
+}
+
+.reveal {
+  display: initial !important;
+}
+
+.hide {
+  visibility: hidden !important;
+}
+
+.show {
+  visibility: visible !important;
+}
+
+.fill-container {
+  display: block;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.wrap-content {
+  display: block;
+  overflow: hidden;
+  height: auto;
+}
+
+.like-father-like-son {
+  display: inherit;
+  color: inherit;
+}
+
+.nullify {
+  display: inherit;
+  list-style: none;
+  color: inherit;
+  padding: 0em;
+  margin: 0em;
+}
