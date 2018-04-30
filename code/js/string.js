@@ -1,8 +1,10 @@
 /*
-  toCapital("foo Bar") -> "Foo Bar"
-  toCapital("foo Bar", 1) -> "Foo bar"
+  toCapital("amen") -> "Amen"
+  toCapital("aMEN", 1) -> "Amen"
+  toCapital("ah Men") -> "Ah Men"
+  toCapital("ah Men", 1) -> "Ah Men"
 */
-function toCapital( str, lowAll = 0 ){
+function toCapital( str = "", lowAll = 0 ){
     if( typeof str !== "string" ){ throw TypeError(`toCapital() requires first parameter to be a string. The data type of given value was ${typeof str}`); }
     if( typeof lowAll !== "number" ){ throw TypeError(`toCapital() requires second parameter to be a number. Default (0) ignores case of rest of string, on (1) de-capitalizes rest of string.`); }
 
@@ -75,7 +77,7 @@ function toMeridiem( int ){
   getMeridiem("7") -x "7"
   getMeridiem(7) -x TypeError: str.includes is not a function
 */
-function getMeridiem( str ){
+function getMeridiem( str = "" ){
   if( !["string"].includes(typeof str) ){ throw TypeError(`getMeridiem() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
 
   return str.slice( str.search( ["am","pm"].filter( r => str.includes(r) )[0] ) );
@@ -112,22 +114,54 @@ function setDigits( str = 0, len = 1, x = 0 ){
   [str.padStart(str.length + len, "0"), str.padEnd(str.length + len, "0")][x > 0 ? 1 : 0];
 }
 
-function toLen( str = "", len = 0, fill = "", dir = 0 ){
+/*
+  toLen("Amen", 1) -> "A"
+  toLen("Amen", 1, "@") -> "A"
+  toLen("Amen", 5, "@") -> "Amen@"
+  toLen("Amen", 5, "") -> "Amen"
+*/
+function toLen( str = "", len = 0, fill = "", newStr = "" ){
   if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
 
+  let toStr = "";
+
   for( let i = 0; i < len; i++ ){
-    if( str[i] !== undefined ) str = str + str[i];
-    else str = dir < 1 ? str + fill : fill + str;
+    if( i >= str.length ) toStr = toStr + fill;
+    else toStr = toStr + str[i];
+  }
+
+  return toStr;
+}
+
+/*
+  setLen("Amen", 1, "@") -> "Amen@"
+  setLen("Amen", 0, "@") -> "Amen"
+  setLen("Amen", 2, "") -> "Amen"
+  setLen("Amen", 2, "@") -> "Amen@@"
+  setLen("Amen", 1, "@@") -> "Amen@@"
+  setLen("Amen", 2, "@@") -> "Amen@@@@"
+  setLen("Amen", 2, "@@", -1) -> "@@@@Amen"
+  setLen("Amen", -5, "") -> "Amen"
+  setLen("Amen", -5, "", -1) -> "Amen"
+*/
+function setLen( str = "", len = 0, fill = "", dir = 1 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
+
+  for( let i = len; i > 0; i-- ){
+    str = dir < 0 ? fill + str : str + fill ;
   }
 
   return str;
 }
 
-function setLen( str = "", len = 0, fill = "", dir = 0 ){
+/*
+  RENAMED setLen()
+*/
+function extend( str = "", len = 0, fill = "", dir = 1 ){
   if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); }
 
   for( let i = len; i > 0; i-- ){
-    str = dir < 1 ? str + fill : fill + str;
+    str = dir < 0 ? fill + str : str + fill ;
   }
 
   return str;
