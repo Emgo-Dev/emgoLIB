@@ -4,21 +4,26 @@ A collection of common terms in web/software development, programming, etc. The 
 
 **Backend**: [also: backend, back-end, back end, BackEnd] when speaking of websites and the internet, refers to the server (hardware) which contains project files. Server 'serves' files to the frontend internet browser, compiles code, performs tasks.
 
+**B.E.M. (also BEM or Block Element Modifier)**: a naming convention for CSS in order to maintain large design systems by treating HTML components as objects.
+
 **C (Programming Language)**
 
-**Camel Case**: [also camelCase] A naming convention for which delimits words in an identifier by the alternating capitalization of the first letter for each word after the first (which is all lowercased). Following characters in a word are also all lowercased.
+**Camel Case**: [also camelCase] A naming convention for which medial capitalization indicates boundaries between words in an identifier by the alternating capitalization of the first letter of each word after the first (which is all lowercased). Following characters in a word are also all lowercased.
 
 > someVariableName
+
+**Composite Numbers**: A Composite Number is a whole number that can be divided evenly by numbers other than 1 or itself.
+Example: 9 can be divided evenly by 3 (as well as 1 and 9), so 9 is a composite number. But 7 cannot be divided evenly (except by 1 and 7), so is NOT a composite number (it is a prime number).
 
 **C.R.U.D. (also CRUD)**: An acronym for create, read, update, and delete. These are the four basic functions of [persistent storage](https://en.wikipedia.org/wiki/Persistence_(computer_science)) / relational database systems.
 
 **Delimiter**: A sequence of one or more characters used to specify the boundary between separate / independent regions in plain text or other data streams.
 
-**Delimiter-separated Words**: A naming convention for which words are delimited by a nonalphanumeric character, commonly '\-' or '\_'.
+**Delimiter-separated Words**: A naming convention for which words are delimited by a nonalphanumeric character, commonly '\-' or '\_'. This convention has no standard name, though it may be referred to as lisp-case or COBOL-CASE (compare Pascal case), kebab-case, or other variants (snake_case). Of these, kebab-case, dating at least to 2012, has achieved some currency since.
 
-**Domain-Specific Language (DSL)**: A domain-specific language (DSL) is a computer language specialized to a particular application domain.
+**Domain-Specific Language (also DSL)**: A domain-specific language (DSL) is a computer language specialized to a particular application domain.
 
-**Extensible Markup Language (XML)**: In computing, Extensible Markup Language (XML) is a markup language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.
+**Extensible Markup Language (also XML)**: In computing, Extensible Markup Language (XML) is a markup language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.
 
 > [Wikipedia](https://en.wikipedia.org/wiki/XML)
 
@@ -39,6 +44,8 @@ A collection of common terms in web/software development, programming, etc. The 
 > ```
 > $a = function foo(){ return 5; }
 > ```
+
+**Factory**: a function or method for the purpose of returning other objects. An abstraction of a constructor of a class or an abstraction of a prototype of an object.
 
 **Frontend**: [also: frontend, front-end, front end, FrontEnd] when speaking of websites and the internet, refers to the internet browser program which  users use to access content on the internet.
 
@@ -63,9 +70,17 @@ A collection of common terms in web/software development, programming, etc. The 
 
 **Imperative Programming**: In computer science, imperative programming is a programming paradigm that uses statements that change a program's state. In much the same way that the imperative mood in natural languages expresses commands, an imperative program consists of commands for the computer to perform. Imperative programming focuses on describing how a program operates.
 
+**Letter case-separated words**: A naming convention for which media capitalization indicates word boundaries.
+
+**Pascal Case**: A naming convention for which medial capitalization indicates boundaries between words in an identifier by the alternating capitalization of the first letter of each word. Following characters in a word are also all lowercased. e.g. "two words" = "TwoWords". Commonly used in Pascal, Java, C#, and Visual Basic. Treament of acronyms in identifiers (e.g. the "XML" and "HTTP" in XMLHttpRequest) varies. Some dictate that they be lowercased (e.g. XmlHttpRequest) to ease typing and readability, whereas others leave them uppercased.
+
 **Polyfill**
 >(RemySharp)[https://remysharp.com/2010/10/08/what-is-a-polyfill]
 A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you wil
+
+**Prime Numbers**: A Prime Number can be divided evenly only by 1, or itself. It must be a whole number greater than 1.
+
+> 5 can only be divided evenly by 1 or 5, so it is a prime number. But 6 can be divided evenly by 1, 2, 3 and 6 so it is NOT a prime number (it is a composite number).
 
 **Recursion**:
 
@@ -76,7 +91,7 @@ A polyfill, or polyfiller, is a piece of code (or plugin) that provides the tech
 
 >Most computer programming languages support recursion by allowing a function to call itself within the program text. Some functional programming languages do not define any looping constructs but rely solely on recursion to repeatedly call code. Computability theory proves that these recursive-only languages are Turing complete; they are as computationally powerful as Turing complete imperative languages, meaning they can solve the same kinds of problems as imperative languages even without iterative control structures such as “while” and “for”.
 
-**Relational Database Management System (RDMS)**:
+**Relational Database Management System (also RDMS)**:
 
 >[Wikipedia](https://en.wikipedia.org/wiki/Relational_database_management_system)
 >A relational database management system (RDBMS) is a database management system (DBMS) that is based on the relational model invented by Edgar F. Codd, of IBM's San Jose Research Laboratory. Most databases in widespread use are based on the relational database model.
@@ -88,6 +103,24 @@ A polyfill, or polyfiller, is a piece of code (or plugin) that provides the tech
 **Variable**: An identifier which an expression is assigned to.
 
 **Identifier**: The name of a variable. Where a string is a data type of text denoted by quotations, the identifier is text treated as a variable to which data is assigned.
+
+**M.E.A.N. (also MEAN or MEAN Stack)**: A collection of complimentary technologies which support a development stack to deliver software services.
+- M: MongoDB
+- E: ExpressJS
+- A: AngularJS
+- N: NodeJS
+
+**L.A.M.P. (also LAMP or LAMP Stack)**: A collection of complimentary technologies which support a development stack to deliver software services.
+- L: Linux
+- A: Apache
+- M: MySQL
+- P: PHP
+
+**W.A.M.P. (also WAMP or WAMP Stack)**: A collection of complimentary technologies which support a development stack to deliver software services.
+- W: Windows
+- A: Apache
+- M: MySQL
+- P: PHP
 
 **Scalar Value**: A single unit of data Eg: A number, a chunk of text.
 >[Scalar Values in PHP](http://php.net/manual/en/language.expressions.php)
