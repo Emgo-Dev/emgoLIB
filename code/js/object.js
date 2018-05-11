@@ -14,5 +14,13 @@ function isObject( col ){
 }
 
 const countProperties = obj => Object.keys(obj).length;
-Object.prototype.toArray = function(){ return Object.entries(this); }
-Object.prototype.length = function(){ return Object.keys(this).length; }
+
+function objFilter( obj, properties ){
+  let filtered = {}
+  for( let prop in arguments ){
+    if( prop > 0 ){
+      filtered[arguments[prop]] = obj[arguments[prop]];
+    }
+  }
+  return filtered;
+}
