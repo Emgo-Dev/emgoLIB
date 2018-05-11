@@ -320,9 +320,63 @@ function indexOf(element) {
 
     var array = docEle('.slider__radio')[0].children;
     indexOf(array[3]);
+}
 
+function stringSearch(string, regex) {
+  if (string.search(regex) != -1) {
+    return "Found Result";
+  } else {
+    return "No Result";
+  }
+}
 
-    meaning we are counting the placement of items in an array beginning at the 0 int, where speaking in quantities 0 is equal to nothing, so counting one of anything is 1, yet an index is a placement; so placement 0 is not a lack of quantity.
+function stringFind(string, regex) {
+  return string.match(regex);
+}
 
-    The indexCounter represents jumps between quantative/existing elements, not index points. To match the beginning index of array[0] we subtract one. If we wanted to represent the quantative elemens, indexCounter should begin
+// @function          removeClass()
+//
+// @description       removes a single class from an html
+//                    elements class attribute while maintaining
+//                    other assigned classes
+//
+// @source [string]   An html classes as a string.
+//                    To get HTML element class string
+//                    from DOM do element.className
+//
+// $measure [string]  A regular expression to match for
+
+function removeClass(source, measure) {
+  // Split source string into array
+  var array = stringSplit(source, " ");
+  // Declare result array
+  var result = [];
+
+  // Loop through source array
+  for (s=0; s<=array.length; s++) {
+    // Match to measure
+    if (array[s] === measure) {
+      // Do nothing if match found
+      // return array.splice(s, 1);
+    } else {
+      // Push unmatched to new array
+      result.push(array[s]);
+    }
+  }
+
+  // Return new array without matches
+  return result.join(" ");
+}
+
+function update( value, arg ){ //  BELONGS UNDER object.js
+  let temp = value;
+  const commands = {
+    $set( oldV, newV ){ oldV = newV; }
+  }
+
+  for( let prop in arg ){
+    if( ![undefined].includes(commands[prop]) ){
+      return commands[prop](temp, arg[prop]);
+    }
+  }
 }
