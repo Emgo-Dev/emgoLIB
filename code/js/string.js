@@ -1,102 +1,150 @@
 /*
-  toCapital("amen") -> "Amen"
-  toCapital("aMEN", 1) -> "Amen"
-  toCapital("ah Men") -> "Ah Men"
-  toCapital("ah Men", 1) -> "Ah Men"
+  RENAMED FROM setLen()
 */
-function toCapital( str = "", lowAll = 0 ){
-    if( typeof str !== "string" ){ throw TypeError(`toCapital() requires first parameter to be a string. The data type of given value was ${typeof str}`); };
-    if( typeof lowAll !== "number" ){ throw TypeError(`toCapital() requires second parameter to be a number. Default (0) ignores case of rest of string, on (1) de-capitalizes rest of string.`); };
+function extend( str = "", len = 0, fill = "", dir = 1 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
 
-    return str.slice(0, 1).toUpperCase().concat( (lowAll ? str.slice(1).toLowerCase() : str.slice(1)) );
+  for( let i = len; i > 0; i-- ){
+    str = dir < 0 ? fill + str : str + fill ;
+  };
+
+  return str;
+};
+
+// https://www.mathsisfun.com/roman-numerals.html
+// http://www.javascripter.net/faq/accentedcharacters.htm
+
+/*
+  numeralize(1) -> "I"
+  numeralize("4") -> "IV"
+  numeralize(209) -> "CCIV"
+*/
+function numeralize( number ){
+  if( typeof number !== "number" ) number = String(number);
+  let romanNumerals = "";
+  const numerals = [
+    ["I", "V"],
+    ["X", "L"],
+    ["C", "D"],
+    ["M", "V\u0305"],
+    ["X\u0305", "L\u0305"],
+    ["C\u0305", "D\u0305"],
+    ["M\u0305", "V\u0305"]
+  ];
+  const digits = [
+    1,
+    10,
+    100,
+    1000,
+    10000,
+    100000,
+    1000000
+  ];
+
+  function reverseString( str ){
+    for( let i = 0, reversed = ""; i < str.length; i++ ){
+      reversed = str[i] + reversed;
+
+      if( i == str.length - 1 ) return reversed;
+    };
+  };
+
+  function splitNumbers( str ){
+    for( let i = str.length - 1, zeroes = "", numbers = []; i >= 0; i-- ){
+      for( let z = 0; z < i; z++ ) zeroes += "0";
+
+      if( str[i] > 0 ) numbers[numbers.length] = str[i] + zeroes;
+
+      if( i === 0 ) return numbers;
+    };
+  };
+
+  function getNumeral( str ){
+    for( let digit = 0, numeral = ""; digit < digits.length; digit++ )
+      if( digits[digit] / str > 1 ){
+        let digitPair = digit - 1;
+
+        for( let l = 0; l < Math.floor( (str / digits[digitPair]) % 5 ); l++ )
+          if( l < 3 ) numeral += numerals[digitPair][0];
+
+        if( str > (digits[digitPair] * 3) ){
+          if( str > (digits[digitPair] * 5) ) numeral = numerals[digitPair][1] + numeral;
+          if( str > (digits[digitPair] * 8) ) numeral = numerals[digitPair][0] + numerals[digitPair + 1][0];
+          if( str < (digits[digitPair] * 6) ) numeral = numerals[digitPair][1];
+          if( str < (digits[digitPair] * 5) ) numeral = numerals[digitPair][0] + numeral;
+        };
+
+        return numeral;
+      };
+  };
+
+  for( let numberPair of splitNumbers(reverseString(number)) )
+    romanNumerals += getNumeral(numberPair);
+
+  return romanNumerals;
 };
 
 /*
-  toOrdinal(1) -> "1st"
-  toOrdinal("1") -> "1st"
-  toOrdinal("1.5") -x "1.5st"
-  toOrdinal("first") -x "firstth"
-  toOrdinal("second") -x "secondth"
+getDecimals("1") -x "1"
+getDecimals("1.") -x ""
+getDecimals("1.5") -> "5"
+getDecimals("1.50") -> "50"
+getDecimals("1.500") -> "500"
+getDecimals("10.500") -> "500"
+getDecimals("10..500") -x ".500"
+getDecimals("10...500") -x "..500"
 */
-function toOrdinal( int ){
-    // ONLY CHECK DATA TYPE OF GIVEN PARAMETER
-    // DOESN'T CHECK WHETHER THE GIVEN PARAMETER IS A REAL INTEGER NUMBER, WHETHER PARSED OR NOT
-    // FAIL CASE PARAMETER VALUES: "first", 1.5, "1.5"
-    if( !["string", "number"].includes(typeof int) ){ throw TypeError(`toOrdinal() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); };
-    let digits = [ (parseInt(int) % 10), (parseInt(int) % 100) ];
-    let pattern = [ [1, 2, 3, 4], ["st", "nd", "rd", "th"] ];
+function getDecimals( str = "" ){
+  if( !["string", "number"].includes(typeof str) ){ throw TypeError(`toWrittenNumb() requires first parameter to be a string or number. The data type of given value was ${typeof str}.`); };
 
-    return pattern[0].includes( digits[0] ) && ( digits[1] < 11 || digits[1] > 13 ) ? int + pattern[1][digits[0]-1] : int + pattern[1][3];
+  let decimal = "";
+  let foundDecimal = false;
+  for( let i = 0; i < str.length; i++ ){
+    if( foundDecimal )
+    decimal = decimal + str[i];
+    if( str[i] === "." )
+    if( foundDecimal )
+    decimal = "";
+    foundDecimal = true;
+  };
+
+  return decimal;
 };
 
 /*
-  to12Hour(0) -> 12
-  to12Hour(11) -> 11
-  to12Hour(12) -> 12
-  to12Hour(13) -> 1
-  to12Hour(24) -> 12
-  to12Hour(25) -> 1
-*/
-function to12Hour( int ){
-    // ONLY HANDLES CONVERTING PATTERNS OF INTEGERS BETWEEN PERIODS OF 12 DOWN TO 12 HOUR TIME FORMATS
-    // DOESN'T RETURN DATA OF ORIGINAL GIVEN INTEGER WHICH CAN BE USED TO DETERMINE THE 12 HOUR TIME AFTER SO MANY DAYS
-    // ie: 72 HOURS IS MIDNIGHT ON THE THIRD DAY BUT FUNCTION WOULD ONLY RETURN 12 DUE TO 12 AM
-    // if( !["string", number"].includes(typeof int) ){ throw TypeError(`to12Hour() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); }
-    if( isNaN( parseInt(int) ) ){ throw TypeError(`to12Hour() requires first parameter to contain a usable number. The data of given value was ${int} and is Not-A-Number (NAN)}`); };
-    let num = parseInt(int);
+  // RETURNING ARBITRARY DATES IN BELOW EXAMPLES
+  // ONLY MEANT TO SHOW HOW YOU SHOULD RETRIEVE PROPER ISO DATE STRINGS
+  new Date().toISOString() -> "2018-03-21T07:15:30.500Z"
+  Date() -x "Tue Mar 20 2018 20:15:21 GMT-0400 (EDT)"
 
-    return [0, 12, 24].includes(num) ? 12 : num % 12;
-};
+  getIsoDate("2018-03-21T07:15:30.500Z") -> "2018-03-21"
+  getIsoYear("2018-03-21T07:15:30.500Z") -> "2018"
+  getIsoMonth("2018-03-21T07:15:30.500Z") -> "03"
+  getIsoDay("2018-03-21T07:15:30.500Z") -> "21"
+  getIsoTime("2018-03-21T07:15:30.500Z") -> "07:15:30"
+  getIsoHour("2018-03-21T07:15:30.500Z") -> "07"
+  getIsoMinute("2018-03-21T07:15:30.500Z") -> "15"
+  getIsoSecond("2018-03-21T07:15:30.500Z") -> "30"
+*/
+function getIsoDate( str ){ str.match(/\w{4}-\w{2}-\w{2}/)[0]; };
+function getIsoYear( str ){ str.match(/^\w{4}/)[0]; };
+function getIsoMonth( str ){ str.match(/\w{2}(?=-\w{2}T)/)[0]; };
+function getIsoDay( str ){ str.match(/\w{2}(?=T)/)[0]; };
+function getIsoTime( str ){ str.match(/\w{2}:\w{2}:\w{2}/)[0]; };
+function getIsoHour( str ){ str.match(/\w{2}(?=:)/)[0]; };
+function getIsoMinute( str ){ str.match(/\w{2}(?=:\w{2}\.)/)[0]; };
+function getIsoSecond( str ){ str.match(/\w{2}(?=\.)/)[0]; };
 
 /*
-toMeridiem(0) -> "12am"
-toMeridiem(11) -> "11am"
-toMeridiem(12) -> "12pm"
-toMeridiem(13) -> "1pm"
-toMeridiem(24) -> "12am"
-toMeridiem(25) -> "1am"
-getMeridiem("7amam") -x "amam"
-getMeridiem("7ampm") -x "ampm"
-getMeridiem("7pmpm") -x "pmpm"
-getMeridiem("7pmam") -x "am"
-getMeridiem("7pm7am") -x "am"
-*/
-function toMeridiem( int ){
-    // SAME PROBLEMS AS OUTLINED IN to12Hour()
-    if( !["string", "number"].includes(typeof int) ){ throw TypeError(`toMeridiem() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); };
-    if( isNaN(parseInt(int)) ){ throw TypeError(`toMeridiem() requires first parameter to contain a usable number. The data of given value was ${int} and is Not-A-Number (NAN)}`); };
-    let med = int < 24 ? int > 11 ? "pm" : "am" : "am";
-    let num = parseInt(int);
-
-    return [0, 12, 24].includes(num) ? `12${med}` : `${num % 12}${med}`;
-};
-
-/*
-  getMeridiem("7am") -> "am"
-  getMeridiem("7pm") -> "pm"
-  getMeridiem("7") -x "7"
-  getMeridiem(7) -x TypeError: str.includes is not a function
+getMeridiem("7am") -> "am"
+getMeridiem("7pm") -> "pm"
+getMeridiem("7") -x "7"
+getMeridiem(7) -x TypeError: str.includes is not a function
 */
 function getMeridiem( str = "" ){
   if( !["string"].includes(typeof str) ){ throw TypeError(`getMeridiem() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
 
   return str.slice( str.search( ["am","pm"].filter( r => str.includes(r) )[0] ) );
-};
-
-/*
-  toDigits("0", 1) -> "0"
-  toDigits("0", 2) -> "00"
-  toDigits("01", 1) -> "01"
-  toDigits("01", 2) -> "01"
-  toDigits("01", 3) -> "001"
-  toDigits("01", 3, 1) -> "010"
-  toDigits("10", 3) -> "100"
-*/
-function toDigits( str = 0, len = 1, x = 0 ){
-  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
-  if( typeof str === "string" ) return str.slice(0, len);
-
-  return [str.padStart(len, "0"), str.padEnd(len, "0")][x > 0 ? 1 : 0];
 };
 
 /*
@@ -112,25 +160,6 @@ function setDigits( str = 0, len = 1, x = 0 ){
   if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
 
   [str.padStart(str.length + len, "0"), str.padEnd(str.length + len, "0")][x > 0 ? 1 : 0];
-};
-
-/*
-  toLen("Amen", 1) -> "A"
-  toLen("Amen", 1, "@") -> "A"
-  toLen("Amen", 5, "@") -> "Amen@"
-  toLen("Amen", 5, "") -> "Amen"
-*/
-function toLen( str = "", len = 0, fill = "", newStr = "" ){
-  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
-
-  let toStr = "";
-
-  for( let i = 0; i < len; i++ ){
-    if( i >= str.length ) toStr = toStr + fill;
-    else toStr = toStr + str[i];
-  };
-
-  return toStr;
 };
 
 /*
@@ -155,43 +184,111 @@ function setLen( str = "", len = 0, fill = "", dir = 1 ){
 };
 
 /*
-  RENAMED setLen()
+to12Hour(0) -> 12
+to12Hour(11) -> 11
+to12Hour(12) -> 12
+to12Hour(13) -> 1
+to12Hour(24) -> 12
+to12Hour(25) -> 1
 */
-function extend( str = "", len = 0, fill = "", dir = 1 ){
-  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
+function to12Hour( int ){
+  // ONLY HANDLES CONVERTING PATTERNS OF INTEGERS BETWEEN PERIODS OF 12 DOWN TO 12 HOUR TIME FORMATS
+  // DOESN'T RETURN DATA OF ORIGINAL GIVEN INTEGER WHICH CAN BE USED TO DETERMINE THE 12 HOUR TIME AFTER SO MANY DAYS
+  // ie: 72 HOURS IS MIDNIGHT ON THE THIRD DAY BUT FUNCTION WOULD ONLY RETURN 12 DUE TO 12 AM
+  // if( !["string", number"].includes(typeof int) ){ throw TypeError(`to12Hour() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); }
+  if( isNaN( parseInt(int) ) ){ throw TypeError(`to12Hour() requires first parameter to contain a usable number. The data of given value was ${int} and is Not-A-Number (NAN)}`); };
+  let num = parseInt(int);
 
-  for( let i = len; i > 0; i-- ){
-    str = dir < 0 ? fill + str : str + fill ;
-  };
-
-  return str;
+  return [0, 12, 24].includes(num) ? 12 : num % 12;
 };
 
 /*
-getDecimals("1") -x "1"
-getDecimals("1.") -x ""
-getDecimals("1.5") -> "5"
-getDecimals("1.50") -> "50"
-getDecimals("1.500") -> "500"
-getDecimals("10.500") -> "500"
-getDecimals("10..500") -x ".500"
-getDecimals("10...500") -x "..500"
+  toCapital("amen") -> "Amen"
+  toCapital("aMEN", 1) -> "Amen"
+  toCapital("ah Men") -> "Ah Men"
+  toCapital("ah Men", 1) -> "Ah Men"
 */
-function getDecimals( str = "" ){
-  if( !["string", "number"].includes(typeof str) ){ throw TypeError(`toWrittenNumb() requires first parameter to be a string or number. The data type of given value was ${typeof str}.`); };
+function toCapital( str = "", lowAll = 0 ){
+    if( typeof str !== "string" ){ throw TypeError(`toCapital() requires first parameter to be a string. The data type of given value was ${typeof str}`); };
+    if( typeof lowAll !== "number" ){ throw TypeError(`toCapital() requires second parameter to be a number. Default (0) ignores case of rest of string, on (1) de-capitalizes rest of string.`); };
 
-  let decimal = "";
-  let foundDecimal = false;
-  for( let i = 0; i < str.length; i++ ){
-    if( foundDecimal )
-      decimal = decimal + str[i];
-    if( str[i] === "." )
-      if( foundDecimal )
-        decimal = "";
-      foundDecimal = true;
+    return str.slice(0, 1).toUpperCase().concat( (lowAll ? str.slice(1).toLowerCase() : str.slice(1)) );
+};
+
+/*
+toDigits("0", 1) -> "0"
+toDigits("0", 2) -> "00"
+toDigits("01", 1) -> "01"
+toDigits("01", 2) -> "01"
+toDigits("01", 3) -> "001"
+toDigits("01", 3, 1) -> "010"
+toDigits("10", 3) -> "100"
+*/
+function toDigits( str = 0, len = 1, x = 0 ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
+  if( typeof str === "string" ) return str.slice(0, len);
+
+  return [str.padStart(len, "0"), str.padEnd(len, "0")][x > 0 ? 1 : 0];
+};
+
+/*
+toMeridiem(0) -> "12am"
+toMeridiem(11) -> "11am"
+toMeridiem(12) -> "12pm"
+toMeridiem(13) -> "1pm"
+toMeridiem(24) -> "12am"
+toMeridiem(25) -> "1am"
+getMeridiem("7amam") -x "amam"
+getMeridiem("7ampm") -x "ampm"
+getMeridiem("7pmpm") -x "pmpm"
+getMeridiem("7pmam") -x "am"
+getMeridiem("7pm7am") -x "am"
+*/
+function toMeridiem( int ){
+  // SAME PROBLEMS AS OUTLINED IN to12Hour()
+  if( !["string", "number"].includes(typeof int) ){ throw TypeError(`toMeridiem() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); };
+  if( isNaN(parseInt(int)) ){ throw TypeError(`toMeridiem() requires first parameter to contain a usable number. The data of given value was ${int} and is Not-A-Number (NAN)}`); };
+  let med = int < 24 ? int > 11 ? "pm" : "am" : "am";
+  let num = parseInt(int);
+
+  return [0, 12, 24].includes(num) ? `12${med}` : `${num % 12}${med}`;
+};
+
+/*
+toLen("Amen", 1) -> "A"
+toLen("Amen", 1, "@") -> "A"
+toLen("Amen", 5, "@") -> "Amen@"
+toLen("Amen", 5, "") -> "Amen"
+*/
+function toLen( str = "", len = 0, fill = "", newStr = "" ){
+  if( !["string"].includes(typeof str) ){ throw TypeError(`toDigits() requires first parameter to be a string. The data type of given value was ${typeof str}.`); };
+
+  let toStr = "";
+
+  for( let i = 0; i < len; i++ ){
+    if( i >= str.length ) toStr = toStr + fill;
+    else toStr = toStr + str[i];
   };
 
-  return decimal;
+  return toStr;
+};
+
+/*
+  toOrdinal(1) -> "1st"
+  toOrdinal("1") -> "1st"
+  toOrdinal("1.5") -x "1.5st"
+  toOrdinal("first") -x "firstth"
+  toOrdinal("second") -x "secondth"
+*/
+function toOrdinal( int ){
+    // ONLY CHECK DATA TYPE OF GIVEN PARAMETER
+    // DOESN'T CHECK WHETHER THE GIVEN PARAMETER IS A REAL INTEGER NUMBER, WHETHER PARSED OR NOT
+    // FAIL CASE PARAMETER VALUES: "first", 1.5, "1.5"
+    if( !["string", "number"].includes(typeof int) ){ throw TypeError(`toOrdinal() requires first parameter to be a string or number. The data type of given value was ${typeof int}.`); };
+    let digits = [ (parseInt(int) % 10), (parseInt(int) % 100) ];
+    let pattern = [ [1, 2, 3, 4], ["st", "nd", "rd", "th"] ];
+
+    return pattern[0].includes( digits[0] ) && ( digits[1] < 11 || digits[1] > 13 ) ? int + pattern[1][digits[0]-1] : int + pattern[1][3];
 };
 
 /*
@@ -238,27 +335,3 @@ function toWrittenNumb( int ){
 
     return wNum.split("").reverse().join("");
 };
-
-/*
-  // RETURNING ARBITRARY DATES IN BELOW EXAMPLES
-  // ONLY MEANT TO SHOW HOW YOU SHOULD RETRIEVE PROPER ISO DATE STRINGS
-  new Date().toISOString() -> "2018-03-21T07:15:30.500Z"
-  Date() -x "Tue Mar 20 2018 20:15:21 GMT-0400 (EDT)"
-
-  getIsoDate("2018-03-21T07:15:30.500Z") -> "2018-03-21"
-  getIsoYear("2018-03-21T07:15:30.500Z") -> "2018"
-  getIsoMonth("2018-03-21T07:15:30.500Z") -> "03"
-  getIsoDay("2018-03-21T07:15:30.500Z") -> "21"
-  getIsoTime("2018-03-21T07:15:30.500Z") -> "07:15:30"
-  getIsoHour("2018-03-21T07:15:30.500Z") -> "07"
-  getIsoMinute("2018-03-21T07:15:30.500Z") -> "15"
-  getIsoSecond("2018-03-21T07:15:30.500Z") -> "30"
-*/
-function getIsoDate( str ){ str.match(/\w{4}-\w{2}-\w{2}/)[0]; };
-function getIsoYear( str ){ str.match(/^\w{4}/)[0]; };
-function getIsoMonth( str ){ str.match(/\w{2}(?=-\w{2}T)/)[0]; };
-function getIsoDay( str ){ str.match(/\w{2}(?=T)/)[0]; };
-function getIsoTime( str ){ str.match(/\w{2}:\w{2}:\w{2}/)[0]; };
-function getIsoHour( str ){ str.match(/\w{2}(?=:)/)[0]; };
-function getIsoMinute( str ){ str.match(/\w{2}(?=:\w{2}\.)/)[0]; };
-function getIsoSecond( str ){ str.match(/\w{2}(?=\.)/)[0]; };
