@@ -109,8 +109,12 @@ function randomBetweenProto( len, min, max ){
 	randomBetween(0, 5, 3) -> [4, 0, 2]
 	randomBetween(5, -5, 3) -> [-1, 3, 0]
 */
-function randomBetween( min, max, len, callback ){
-	function findRandom(){ return Math.floor(Math.random() * (max - min) + min); }
+function randomBetween( min, max, len, callback, float = 0 ){
+	function findRandom(){
+		let number =  Math.random() * (max - min) + min;
+		if( float ) number = Math.floor( number );
+		return number;
+	}
 
 	for( col = [], index = 0; index < len; index++ ){
 		if( callback ){
