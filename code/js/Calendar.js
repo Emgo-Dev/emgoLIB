@@ -1,60 +1,121 @@
-class Calendar {
-	// I'M SAVING THESE LINKS FOR LATER USED
-	// THEY WILL GO IN A DOCUMENTATION FILE SOMETIME LATER
-	// https://www.timeanddate.com/
-	// https://www.timeanddate.com/calendar/jewish-calendar.html
-	// https://www.timeanddate.com/calendar/roman-calendar.html
-	// https://www.timeanddate.com/calendar/julian-calendar.html
-	// https://www.timeanddate.com/calendar/gregorian-calendar.html
-	// https://www.timeanddate.com/calendar/months/
-	// https://www.timeanddate.com/calendar/days/
+function Calendar( months, args ){
+	const modernMonths = {
+		January: 31,
+		February: 28,
+		March: 31,
+		April: 30,
+		May: 31,
+		June: 30,
+		July: 31,
+		August: 31,
+		September: 30,
+		October: 31,
+		November: 30,
+		December: 30
+	};
+	this.col = typeof months === "object" ? months : modernMonths;
+	this.monthsCol = Object.keys(this.col);
 
-	constructor( monthCol = {} ){
-		// EXPECT A JSON COLLECTION OF MONTHS
-		// MONTH AS PROPERTY, DAYS IN THE MONTH AS AN INTEGER VALUE
-		this.col = Object.entries(monthCol);
+	Month.call(this, args);
+	Day.call(this, args);
+};
+
+function Day( args ){
+	this.daysCol = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday"
+	];
+
+	this.getDay = function( day ){
+		return this.daysCol[day];
+	};
+
+	this.getDays = function( days ){
+		return Object.keys( arguments ).map( x => this.getDay(arguments[x]) );
+	};
+};
+
+function Month( args ){
+	// ARGUMENTS
+	this.monthsBeginOn = 0;
+
+	if( args ){
+		// MONTHS BEGIN ON 1 RATHER THAN 0
+		if( args.hasOwnProperty("monthsBeginOnOne") && args.monthsBeginOnOne ){
+			this.monthsCol = [undefined, ...this.monthsCol];
+			this.monthsBeginOn = 1;
+			// BECAUSE undefined WILL CAUSE ERRORS WHEN OPERATIONS WITH TYPE SPECIFIC
+			// METHODS ARE USED IN ITERATIVE PROCESSES SUCH AS Array.map( x => x.toLowerCase()
+			// CHAIN Array.filter( x => x !== undefined ) BEFORE ANY SUCH INDISCRIMINATE OPERATIONS
+		}
 	}
 
-	getMonths(){ return this.col.map( x => this.getMonth(x) ); }
+	Array.prototype.filterUndefined = function(){
+		return this.filter( x => x !== undefined );
+	};
 
-	preparedMonths(){ return this.getMonths().map( x => x.toLowerCase() ); }
+	Array.prototype.undefinedTo0 = function(){
+		if( args && args.hasOwnProperty("monthsBeginOnOne") && args.monthsBeginOnOne ){
+			return [undefined, ...this];
+		}
+	};
 
-	preparedMonthInt( int = 0 ){ return int < 0 ? 0 : int > this.col.length - 1 ? this.col.length - 1 : int; }
+	this.toShort = function( str ){
+		return str.slice(0, 3);
+	};
 
-	getDays(){ return this.col.map( x => this.getDay(x) ); }
+	this.getMonth = function( month ){
+		return typeof month === "number" ? this.findMonth( month ) : this.findMonth( month )[0];
+	};
 
-	getDay( col = [] ){ return col[1]; }
+	this.getMonths = function( months ){
+		if( months === undefined ){
+			return this.findMonth();
+		}
 
-	getMonth( col = [] ){ return col[0]; }
+		return Object.keys( arguments ).map( x => this.getMonth(arguments[x]) );
+	};
 
-	findMonth( month ){
+	this.safeMonths = function(){
+		return this.monthsCol.filterUndefined().map( x => x.toLowerCase() ).undefinedTo0();
+	};
+
+	this.safeMonthI = function( int = 0 ){
+		return int < this.monthsBeginOn ? this.monthsBeginOn : int > this.monthsCol.length - 1 ? this.monthsCol.length - 1 : int;
+	}
+
+	this.isMonth = function( month ){
+		if( typeof month === "string" && this.findMonth(month, true) ){
+			return true;
+		}
+
+		return false;
+	}
+
+	this.findMonth = function( month, strict = false ){
+		if( typeof month === "number" ){
+			return this.monthsCol[this.safeMonthI(month)];
+		};
+
 		if( typeof month === "string" ){
-			if( month.length < 4 ){
-				return this.preparedMonths().filter( x => this.toAbbr(x) === this.toAbbr(month).toLowerCase() ).map( x => x.slice(0, 1).toUpperCase().concat(x.slice(1)) );
-				// return this.preparedMonths().map( x => this.toAbbr(x) ).filter( x => x === this.toAbbr(month).toLowerCase() ).map( x => x.slice(0, 1).toUpperCase().concat(x.slice(1)) );
+			let foundMonth = this.safeMonths().filterUndefined().filter(
+				x => x.slice(0, month.length) === month.toLowerCase()
+			).map(
+				x => x.slice(0, 1).toUpperCase().concat( x.slice(1) )
+			);
+
+			if( strict ){
+				return foundMonth[0].toLowerCase() === month.toLowerCase() ? true : false;
 			}
 
-			return this.preparedMonths().filter( x => x === month.toLowerCase() ).map( x => x.slice(0, 1).toUpperCase().concat(x.slice(1)) );
-		}else if( typeof month === "number" ){
-			return this.getMonths()[this.preparedMonthInt(month)];
-		}
+			return foundMonth;
+		};
 
-		return this.preparedMonths().filter( x => x === month.toLowerCase() );
-	}
-
-	findDay( month ){
-		if( typeof month === "number" ){
-			return this.getDay(this.col[this.preparedMonthInt(month)]);
-		}
-	}
-
-	toAbbr( str ){ return str.slice(0, 3); }
-
-	isMonth( month ){
-		if( this.findMonth(month).length < 1 ){ return true; }
-
-		throw new Error("Calendar.getDaysOf: Parameter was not a string.");
-	}
-}
-
-module.exports = new Calendar();
+		return this.monthsCol.filterUndefined();
+	};
+};
