@@ -120,5 +120,3 @@ class DOM {
 	  return [];
 	}
 };
-
-module.exports = new DOM();
